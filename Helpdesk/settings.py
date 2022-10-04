@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'HelpdeskApp.app.HelpdeskappConfig',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +63,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
             ],
         },
     },
@@ -76,7 +78,11 @@ WSGI_APPLICATION = 'Helpdesk.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'helpdesck1',
+        'USER':'postgres',
+        'PASSWORD':'',
+        'HOST': '127.0.0.1',
+        'DATABASE_PORT':'5432'
     }
 }
 
