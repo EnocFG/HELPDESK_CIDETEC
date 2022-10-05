@@ -19,9 +19,17 @@ from rest_framework import routers
 from HelpdeskApp import views
 
 router = routers.DefaultRouter()
+
 router.register(r'area', views.areaViewSet)
 router.register(r'proyecto', views.proyectoViewSet)
-
+router.register(r'rol', views.rolViewSet)
+router.register(r'especialidad', views.espViewSet)
+router.register(r'prioridad', views.prioViewSet)
+router.register(r'usuario', views.usuarioViewSet)
+router.register(r'especialista', views.especViewSet)
+router.register(r'problemas', views.probViewSet)
+router.register(r'ticket', views.ticketViewSet)
+router.register(r'estatus', views.estatusViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
