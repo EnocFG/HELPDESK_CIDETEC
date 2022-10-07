@@ -77,8 +77,8 @@ WSGI_APPLICATION = 'Helpdesk.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'helpdesck1',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'helpdesk1',
         'USER':'postgres',
         'PASSWORD':'',
         'HOST': '127.0.0.1',
