@@ -1,10 +1,7 @@
 from django.db import models
-
 from .choices import roles
 from .choices import prioridades
 from .choices import status_tickets
-
-
 from django.utils import timezone
 
 
@@ -13,7 +10,9 @@ class status_e(models.Model):
 
     tipo_estatus = models.CharField(max_length=100)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_culminacion = models.DateTimeField(default=True)
+    fecha_culminacion = models.DateTimeField()
+    def __str__(self):
+        return self.tipo_estatus
 
 
 
@@ -122,12 +121,12 @@ class ticket(models.Model):
     ticket_areaorigen = models.ForeignKey(area, null=True, blank=True, on_delete=models.CASCADE)
     comentario_t = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha creacion del ticket')
-    fecha_atendido = models.DateTimeField(default=True,verbose_name='Fecha atendido')
-    fecha_asignado = models.DateTimeField(default=True,verbose_name='Fecha asignado')
-    fecha_proceso = models.DateTimeField(default=True,verbose_name='Fecha proceso')
-    fecha_resuelto = models.DateTimeField(default=True,verbose_name='Fecha resuelto')
-    fecha_validado = models.DateTimeField(default=True,verbose_name='Fecha validado')
-    fecha_cancelado = models.DateTimeField(default=True,verbose_name='Fecha cancelado')
+    fecha_atendido = models.DateTimeField(verbose_name='Fecha atendido')
+    fecha_asignado = models.DateTimeField(verbose_name='Fecha asignado')
+    fecha_proceso = models.DateTimeField(verbose_name='Fecha proceso')
+    fecha_resuelto = models.DateTimeField(verbose_name='Fecha resuelto')
+    fecha_validado = models.DateTimeField(verbose_name='Fecha validado')
+    fecha_cancelado = models.DateTimeField(verbose_name='Fecha cancelado')
     ticket_superior = models.BigIntegerField()
 
 
