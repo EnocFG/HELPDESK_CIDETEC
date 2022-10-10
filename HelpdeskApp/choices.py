@@ -1,4 +1,4 @@
-status_tickets= (
+status_tickets=(
     ('1','Creado'),
     ('2','Atendido'),
     ('3','Asignado'),
