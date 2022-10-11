@@ -1,17 +1,21 @@
 from .models import *
 from rest_framework import serializers
 
+class EstatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = status_e
+        fields = '__all__'
 
 class areaSerializer(serializers.ModelSerializer):
     class Meta:
         model = area
-        fields = ['id', 'nombre_area', 'codigo_area', 'id_proyecto']
+        fields = '__all__'
 
 
 class proyectoSerializer(serializers.ModelSerializer):
     class Meta:
         model = proyecto
-        fields = ['id', 'nombre_proyecto', 'codigo_proyecto', 'fecha_inicio', 'fecha_culminacion', 'descripcion']
+        fields = '__all__'
 
 
 class rolSerializer(serializers.ModelSerializer):
@@ -26,10 +30,7 @@ class espSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class estaSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = status
-        fields = '__all__'
+
 
 
 class prioSerializer(serializers.ModelSerializer):
@@ -51,13 +52,24 @@ class especSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class probSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = problemas
-        fields = '__all__'
+
 
 
 class ticketSerializer(serializers.ModelSerializer):
     class Meta:
         model = ticket
+        fields = '__all__'
+class EstatusTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = status_ticket
+        fields = '__all__'
+
+class ComentarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = comentario
+        fields = '__all__'
+
+class HistorialTicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = historial_ticket
         fields = '__all__'

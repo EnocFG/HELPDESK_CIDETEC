@@ -3,8 +3,11 @@ from .models import *
 from rest_framework import viewsets
 from .serializers import *
 
-
 # Create your views here.
+class EstatusViewSet(viewsets.ModelViewSet):
+    queryset = status_e.objects.all()
+    serializer_class = EstatusSerializer
+
 
 class areaViewSet(viewsets.ModelViewSet):
     queryset = area.objects.all()
@@ -41,15 +44,20 @@ class especViewSet(viewsets.ModelViewSet):
     serializer_class = especSerializer
 
 
-class probViewSet(viewsets.ModelViewSet):
-    queryset = problemas.objects.all()
-    serializer_class = probSerializer
-
-
 class ticketViewSet(viewsets.ModelViewSet):
     queryset = ticket.objects.all()
     serializer_class = ticketSerializer
 
-class estatusViewSet(viewsets.ModelViewSet):
-    queryset = status.objects.all()
-    serializer_class = estaSerializer
+
+class EstatusTicketViewSet(viewsets.ModelViewSet):
+    queryset = status_ticket.objects.all()
+    serializer_class = EstatusTicketSerializer
+
+
+class ComentarioViewSet(viewsets.ModelViewSet):
+    queryset = comentario.objects.all()
+    serializer_class = ComentarioSerializer
+
+class HistorialViewSet(viewsets.ModelViewSet):
+    queryset = historial_ticket.objects.all()
+    serializer_class = HistorialTicketSerializer

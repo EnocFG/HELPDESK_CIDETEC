@@ -20,8 +20,8 @@ class proyecto(models.Model):
 
     nombre_proyecto = models.CharField(max_length=50)
     codigo_proyecto = models.CharField(max_length=5)
-    fecha_inicial = models.DateTimeField(auto_now_add=True, verbose_name='Fecha incial')
-    fecha_final = models.DateTimeField(auto_now=True, verbose_name='Fecha final')
+    fecha_inicial = models.DateTimeField(verbose_name='Fecha incial')
+    fecha_final = models.DateTimeField(verbose_name='Fecha final')
     descripcion = models.TextField(null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
@@ -57,13 +57,9 @@ class especialidad (models.Model):
 class usuario(models.Model):
 
     codigo_usuario = models.CharField(max_length=20)
-
     nombre_usuario = models.CharField(max_length=50, verbose_name='Nombre del usuario')
-
     apellidos_usuario = models.CharField(max_length=50, verbose_name='Apellidos del usuario')
-
     email_usuario = models.EmailField(verbose_name='Correo')
-
     password = models.CharField(max_length=8)
     usuario_rol = models.ForeignKey(rol, null=True, blank=True, on_delete=models.CASCADE)
     usuario_proyecto = models.ManyToManyField(proyecto)
