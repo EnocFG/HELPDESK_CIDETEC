@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'HelpdeskApp.apps.HelpdeskappConfig',
     'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ WSGI_APPLICATION = 'Helpdesk.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Pruebas',
+        'NAME': 'pruebasdb',
         'USER': 'postgres',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -86,6 +87,9 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
