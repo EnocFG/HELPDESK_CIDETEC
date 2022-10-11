@@ -1,25 +1,25 @@
 status_tickets=(
-    ('1','Creado'),
-    ('2','Atendido'),
-    ('3','Asignado'),
-    ('4','Proceso'),
-    ('5','Espera'),
-    ('6','Resuelto'),
-    ('7','Validado'),
-    ('8','Cancelado'),
-    ('9','Reasignado')
+    ('Creado','Creado'),
+    ('Atendido','Atendido'),
+    ('Asignado','Asignado'),
+    ('Proceso','Proceso'),
+    ('Espera','Espera'),
+    ('Resuelto','Resuelto'),
+    ('Validado','Validado'),
+    ('Cancelado','Cancelado'),
+    ('Reasignado','Reasignado')
 )
 
 status_entidades=(
-    ('1','Activo'),
-    ('2','Inactivo')
+    ( ('ACTIVO', 'ACTIVO'),
+    ('INACTIVO', 'INACTIVO'),)
 )
 
 prioridades=(
-    ('1','Urgente'),
-    ('2','Alta'),
-    ('3','Media'),
-    ('4','Baja')
+    ('Urgente','Urgente'),
+    ('Alta','Alta'),
+    ('Media','Media'),
+    ('Baja','Baja')
 )
 
 roles=(

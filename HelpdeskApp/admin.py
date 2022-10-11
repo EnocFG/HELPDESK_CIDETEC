@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-
 from HelpdeskApp.models import status_e
 from HelpdeskApp.models import proyecto
 from HelpdeskApp.models import area
@@ -13,6 +12,7 @@ from HelpdeskApp.models import status_ticket
 from HelpdeskApp.models import ticket
 from HelpdeskApp.models import comentario
 from HelpdeskApp.models import historial_ticket
+
 
 
 
