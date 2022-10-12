@@ -1,10 +1,12 @@
 from .models import *
 from rest_framework import serializers
 
+
 class EstatusSerializer(serializers.ModelSerializer):
     class Meta:
         model = status_e
         fields = '__all__'
+
 
 class areaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,9 +32,6 @@ class espSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
-
-
 class prioSerializer(serializers.ModelSerializer):
     class Meta:
         model = prioridad
@@ -47,27 +46,29 @@ class usuarioSerializer(serializers.ModelSerializer):
 
 class especSerializer(serializers.ModelSerializer):
     id_usuario = serializers.CharField(source='usuario.nombre_usuario')
+
     class Meta:
         model = especialista
         fields = '__all__'
-
-
-
 
 
 class ticketSerializer(serializers.ModelSerializer):
     class Meta:
         model = ticket
         fields = '__all__'
+
+
 class EstatusTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = status_ticket
         fields = '__all__'
 
+
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = comentario
         fields = '__all__'
+
 
 class HistorialTicketSerializer(serializers.ModelSerializer):
     class Meta:

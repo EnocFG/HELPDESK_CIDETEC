@@ -1,7 +1,7 @@
-from django.shortcuts import render
 from .models import *
-from rest_framework import viewsets
 from .serializers import *
+from rest_framework import viewsets
+
 
 # Create your views here.
 class EstatusViewSet(viewsets.ModelViewSet):
@@ -57,6 +57,7 @@ class EstatusTicketViewSet(viewsets.ModelViewSet):
 class ComentarioViewSet(viewsets.ModelViewSet):
     queryset = comentario.objects.all()
     serializer_class = ComentarioSerializer
+
 
 class HistorialViewSet(viewsets.ModelViewSet):
     queryset = historial_ticket.objects.all()
