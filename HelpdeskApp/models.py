@@ -165,4 +165,3 @@ class historial_ticket(models.Model):
     status_anterior = models.ForeignKey(status_ticket, null=True, blank=True, on_delete=models.CASCADE)
 
 
-

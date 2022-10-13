@@ -15,6 +15,8 @@ from HelpdeskApp.models import historial_ticket
 
 
 
+
+
 # Register your models here.
 admin.site.register(status_e )
 admin.site.register(proyecto)
