@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'HelpdeskApp.apps.HelpdeskappConfig',
     'rest_framework',
+    'Profiles'
 
 ]
 
+LOGIN_URL = '/inicia-sesion/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -79,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pruebasdb',
         'USER': 'postgres',
-        'PASSWORD': '',
+        'PASSWORD': 'qui10te99',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432'
     }
