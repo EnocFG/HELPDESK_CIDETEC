@@ -1,14 +1,25 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}Bievenido{% endblock %}
 
 {% block content %}
 
 {% if user.is_authenticated %}
-    <h1>Hola {{ user.username }}</h1>
-    <a href="{% url 'sign_out' %}">Cerrar sesión</a>
+<div class="container justify-content-center align-items-center">
+    <div class="col-auto text-center">
+        <h1 class="display-6 text-align-center ">Bienvenido {{ user.username }}</h1>
+        </div>
+</div>
+
+
+
 {% else %}
-    <a href="{% url 'sign_up' %}">Registrate</a>
-    <a href="{% url 'sign_in' %}">Iniciar sesión</a>
+<div class="m-0 vh-100 row justify-content-center align-items-center">
+    <div class="col-auto text-center">
+    <a class="btn btn-success" href="{% url 'sign_up' %}">Registrate</a>
+    <a class="btn btn-primary" href="{% url 'sign_in' %}">Iniciar sesión</a>
+    </div>
+</div>
 {% endif %}
 {% endblock content %}
