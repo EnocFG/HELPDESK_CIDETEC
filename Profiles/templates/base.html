@@ -60,9 +60,9 @@
             <div class="navbar-nav">
               
               {% if user.is_authenticated %}
-              <a class="nav-link" href="http://localhost:8000/api/ticket/">Tickets</a>
-              <a class="nav-link" href="http://localhost:8000/api/proyecto/">Proyectos</a>
-              <a class="nav-link" href="http://localhost:8000/api/area/">Areas</a>
+              <a class="nav-link" href="http://localhost:8000/app/ticket/">Tickets</a>
+              <a class="nav-link" href="http://localhost:8000/app/proyecto/">Proyectos</a>
+              <a class="nav-link" href="http://localhost:8000/app/area/">Areas</a>
               <a class="nav-link" href="{% url 'sign_out' %}">Cerrar sesión</a>
               {% endif %}
             </div>
