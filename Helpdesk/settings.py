@@ -41,13 +41,14 @@ INSTALLED_APPS = [
     'Profiles',
     "crispy_forms",
     "crispy_bootstrap5",
-    #APPs de autenticación
+    # APPs de autenticación
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    #bootstrap
+    # bootstrap
     'bootstrap5',
+
 
 ]
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -55,6 +56,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 LOGIN_URL = 'cuenta/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -96,22 +98,23 @@ DATABASES = {
         'NAME': 'pruebasdb',
         'USER': 'postgres',
         'PASSWORD': 'q',
-        #'PASSWORD': 'qui10te99',
+        # 'PASSWORD': 'qui10te99',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432'
     }
 }
 
-# AGREGAR LA AUTHENTICATION_BACKEND Y MANTENER LA AUTENTICACION DE ModelBackend
-AUTHENTICATION_BACKENDS = [ 'django.contrib.auth.backends.ModelBackend',
-                           'allauth.account.auth_backends.AuthenticationBackend'] 
-EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
-# Custom allauth settings
-# Use email as the primary identifier
-ACCOUNT_AUTHENTICATION_METHOD = 'email' 
+# Agrega la autenticacion de allauth y manten la de model
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend']
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Personalizacion de los ajustes allauth
+ACCOUNT_AUTHENTICATION_METHOD = 'email'# Uso de email como identificador primario
 ACCOUNT_EMAIL_REQUIRED = True
 # Make email verification mandatory to avoid junk email accounts
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory' 
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 # Eliminate need to provide username, as it's a very old practice
 ACCOUNT_USERNAME_REQUIRED = False
 
@@ -124,8 +127,6 @@ EMAIL_PORT = 587
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
-
 
 
 AUTH_PASSWORD_VALIDATORS = [

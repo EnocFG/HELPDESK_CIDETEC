@@ -3,10 +3,10 @@ from .serializers import *
 from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, SAFE_METHODS
 from rest_framework import permissions
-from oauth2_provider.views.generic import ProtectedResourceView
+# from oauth2_provider.views.generic import ProtectedResourceView
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+# from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
 
 
 class EstatusViewSet(viewsets.ModelViewSet):
