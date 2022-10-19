@@ -25,7 +25,7 @@ class SignUpView(CreateView):
         return redirect('/')
 
 class BienvenidaView(TemplateView):
-   template_name = 'Profiles/bienvenida.html'
+   template_name = 'Profiles/Principal.html'
   
 
 class SignInView(LoginView):

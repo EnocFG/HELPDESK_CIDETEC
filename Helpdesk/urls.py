@@ -24,5 +24,6 @@ urlpatterns = [
     path('registro/', SignUpView.as_view(), name='sign_up'),
     path('login/', SignInView.as_view(), name='sign_in'),
     path('logout/', SignOutView.as_view(), name='sign_out'),
+    path('cuenta/', include('allauth.urls'), name='cuenta'),
 
 ]
