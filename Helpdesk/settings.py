@@ -49,8 +49,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     # bootstrap
     'bootstrap5',
-
-
 ]
 
 # Formato para los templates o forms con Bootstrap 5
