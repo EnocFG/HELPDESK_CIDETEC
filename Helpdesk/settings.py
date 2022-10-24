@@ -24,6 +24,7 @@ SECRET_KEY = 'django-insecure-ew8j4+=6@8g$odi52u1j3m9+)9p4fhgtsqrup&1h3mq8(-5c+%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ¡Desactivar en producción!
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -51,12 +52,11 @@ INSTALLED_APPS = [
 
 
 ]
+
+# Formato para los templates o forms con Bootstrap 5
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
-LOGIN_URL = 'cuenta/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -97,32 +97,42 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pruebasdb',
         'USER': 'postgres',
-        'PASSWORD': 'q',
-        # 'PASSWORD': 'qui10te99',
+        # 'PASSWORD': 'q',
+        'PASSWORD': 'qui10te99',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432'
     }
 }
 
+# Redireccionamiento para el Login o Logout
+LOGIN_URL = 'cuenta/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
 # Agrega la autenticacion de allauth y manten la de model
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend']
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Personalizacion de los ajustes allauth
 ACCOUNT_AUTHENTICATION_METHOD = 'email'# Uso de email como identificador primario
 ACCOUNT_EMAIL_REQUIRED = True
-# Make email verification mandatory to avoid junk email accounts
+
+# Hacer obligatoria la verificacion de email para evitar cuentas basura
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-# Eliminate need to provide username, as it's a very old practice
+
+# Eliminacion de pedir nombre de usuario para la cuenta
 ACCOUNT_USERNAME_REQUIRED = False
 
-EMAIL_USE_TLS = True
+# Ajustes para la el envio del email de confirmación mediante Django
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cidetechelpdesk@gmail.com'
 EMAIL_HOST_PASSWORD = 'tcpnlzwpsftyqjbp'
-EMAIL_PORT = 587
+
 
 
 # Password validation
