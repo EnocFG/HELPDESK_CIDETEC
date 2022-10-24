@@ -81,7 +81,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'HelpdeskApp',
         'USER':'postgres',
-        'PASSWORD':'',
+        # 'PASSWORD':'',
+        'PASSWORD':'qui10te99',
         'HOST': '127.0.0.1',
         'DATABASE_PORT':'5432'
     }
