@@ -3,13 +3,15 @@ from .serializers import *
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
-from HelpdeskApp.models import ticket
+import HelpdeskApp.models
+from corsheaders import *
 
 
 @csrf_exempt
 def TicketApi(request, id=0):
+    ticket = HelpdeskApp.models.ticket
     if request.method == 'GET':
-        tickets = ticket.objects.all()
+        tickets = ticket.objects.all().order_by('id')
         tickets_serializer = ticketSerializer(tickets, many=True)
         return JsonResponse(tickets_serializer.data, safe=False)
 
@@ -31,8 +33,8 @@ def TicketApi(request, id=0):
         return JsonResponse("Fallo al actualizar", safe=False)
 
     elif request.method == 'DELETE':
-        ticket = ticket.objects.get(id=id)
-        ticket.delete()
+        tickett = ticket.objects.get(id=id)
+        tickett.delete()
         return JsonResponse("Eliminado exitosamente", safe=False)
     return JsonResponse("Fallo al eliminar", safe=False)
 

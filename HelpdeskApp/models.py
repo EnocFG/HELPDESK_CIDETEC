@@ -152,6 +152,8 @@ class ticket(models.Model):
     ticket_superior = models.BigIntegerField(null=True)
 
 
+
+
 # Clase para la tabla Comentario
 class comentario(models.Model):
     comentario_usuario = models.ForeignKey(
