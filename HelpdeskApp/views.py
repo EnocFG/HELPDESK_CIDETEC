@@ -1,12 +1,40 @@
-from .models import *
-from .serializers import *
 from rest_framework import viewsets
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, SAFE_METHODS
-from rest_framework import permissions
-# from oauth2_provider.views.generic import ProtectedResourceView
-from django.http import HttpResponse
-from django.contrib.auth.decorators import login_required
-# from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from .serializers import *
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from django.http.response import JsonResponse
+from HelpdeskApp.models import ticket
+
+
+@csrf_exempt
+def TicketApi(request, id=0):
+    if request.method == 'GET':
+        tickets = ticket.objects.all()
+        tickets_serializer = ticketSerializer(tickets, many=True)
+        return JsonResponse(tickets_serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        ticket_data = JSONParser().parse(request)
+        ticket_serializer = ticketSerializer(data=ticket_data)
+        if ticket_serializer.is_valid():
+            ticket_serializer.save()
+            return JsonResponse("Agregado exitosamente", safe=False)
+        return JsonResponse("Fallo al agregar", safe=False)
+
+    elif request.method == 'PUT':
+        ticket_data = JSONParser().parse(request)
+        ticket = ticket.objects.get(id=ticket_data['id'])
+        ticket_serializer = ticketSerializer(ticket, data=ticket_data)
+        if ticket_serializer.is_valid():
+            ticket_serializer.save()
+            return JsonResponse("Actualizado exitosamente", safe=False)
+        return JsonResponse("Fallo al actualizar", safe=False)
+
+    elif request.method == 'DELETE':
+        ticket = ticket.objects.get(id=id)
+        ticket.delete()
+        return JsonResponse("Eliminado exitosamente", safe=False)
+    return JsonResponse("Fallo al eliminar", safe=False)
 
 
 class EstatusViewSet(viewsets.ModelViewSet):
@@ -64,10 +92,10 @@ class especViewSet(viewsets.ModelViewSet):
     # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
 
 
-class ticketViewSet(viewsets.ModelViewSet):
-    queryset = ticket.objects.all()
-    serializer_class = ticketSerializer
-    # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+# class ticketViewSet(viewsets.ModelViewSet):
+#     queryset = ticket.objects.all()
+#     serializer_class = ticketSerializer
+# permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
 
 
 class EstatusTicketViewSet(viewsets.ModelViewSet):

@@ -7,7 +7,6 @@ from django.utils import timezone
 
 # Clase status de las entidades correpondenes a proyecto, area, usuario, especialista
 class status_e(models.Model):
-
     tipo_estatus = models.CharField(max_length=100)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField()
@@ -15,7 +14,6 @@ class status_e(models.Model):
 
 # Clase Proyecto
 class proyecto(models.Model):
-
     nombre_proyecto = models.CharField(max_length=50)
     codigo_proyecto = models.CharField(max_length=5)
     fecha_inicial = models.DateTimeField(verbose_name='Fecha incial')
@@ -30,7 +28,6 @@ class proyecto(models.Model):
 
 # Clase Area para la tabla Proyecto
 class area(models.Model):
-
     nombre_area = models.CharField(max_length=10)
     codigo_area = models.CharField(max_length=5)
     descripcion = models.TextField(null=True)
@@ -40,6 +37,7 @@ class area(models.Model):
     status_entidad = models.ForeignKey(
         status_e, null=True, blank=True, on_delete=models.CASCADE)
 
+
 # Clase Rol para la tabla Usuario
 
 
@@ -48,21 +46,23 @@ class rol(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
 
+
 # Clase Especilidad para la tabla Especialista
 
 
-class especialidad (models.Model):
+class especialidad(models.Model):
     tipo_especialidad = models.CharField(max_length=100)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.tipo_especialidad
+
+
 # Clase Usuario
 
 
 class usuario(models.Model):
-
     codigo_usuario = models.CharField(max_length=20)
     nombre_usuario = models.CharField(
         max_length=50, verbose_name='Nombre del usuario')
@@ -97,6 +97,7 @@ class especialista(models.Model):
         especialidad, null=True, blank=True, on_delete=models.CASCADE)
     especialista_usuario = models.ManyToManyField(usuario)
 
+
 # class especialistas_especialidades(models.Model):
 #     especialista=models.ForeignKey(especialista, on_delete=models.CASCADE)
 #     especialidades=models.ForeignKey(especialidad, on_delete=models.CASCADE)
@@ -108,6 +109,7 @@ class prioridad(models.Model):
         max_length=30, choices=prioridades, default='1')
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
+
 
 # Clase para la tabla que relaciona el Estatus y Ticket
 
@@ -122,7 +124,7 @@ class status_ticket(models.Model):
 # Clase para la tabla del Ticket
 class ticket(models.Model):
     folio = models.CharField(max_length=20)
-    titulo = models.CharField(max_length=5)
+    titulo = models.CharField(max_length=50)
     ticket_usariocreador = models.ForeignKey(
         usuario, null=True, blank=True, on_delete=models.CASCADE)
     ticket_especialistaasignado = models.ForeignKey(
@@ -131,23 +133,23 @@ class ticket(models.Model):
         prioridad, null=True, blank=True, on_delete=models.CASCADE)
     ticket_tipostatus = models.ForeignKey(
         status_ticket, null=True, blank=True, on_delete=models.CASCADE)
-    coordenadas = models.CharField(max_length=30)
-    evidencias = models.ImageField()
+    coordenadas = models.CharField(max_length=30, null=True)
+    evidencias = models.ImageField(null=True)
     descripcion = models.TextField(null=True)
     ticket_proyecto = models.ForeignKey(
         proyecto, null=True, blank=True, on_delete=models.CASCADE)
     ticket_areaorigen = models.ForeignKey(
         area, null=True, blank=True, on_delete=models.CASCADE)
-    comentario_t = models.TextField()
+    comentario_t = models.TextField(null=True)
     fecha_creacion = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha creacion del ticket')
-    fecha_atendido = models.DateTimeField(verbose_name='Fecha atendido')
-    fecha_asignado = models.DateTimeField(verbose_name='Fecha asignado')
-    fecha_proceso = models.DateTimeField(verbose_name='Fecha proceso')
-    fecha_resuelto = models.DateTimeField(verbose_name='Fecha resuelto')
-    fecha_validado = models.DateTimeField(verbose_name='Fecha validado')
-    fecha_cancelado = models.DateTimeField(verbose_name='Fecha cancelado')
-    ticket_superior = models.BigIntegerField()
+    fecha_atendido = models.DateTimeField(null=True, verbose_name='Fecha atendido')
+    fecha_asignado = models.DateTimeField(null=True, verbose_name='Fecha asignado')
+    fecha_proceso = models.DateTimeField(null=True, verbose_name='Fecha proceso')
+    fecha_resuelto = models.DateTimeField(null=True, verbose_name='Fecha resuelto')
+    fecha_validado = models.DateTimeField(null=True, verbose_name='Fecha validado')
+    fecha_cancelado = models.DateTimeField(null=True, verbose_name='Fecha cancelado')
+    ticket_superior = models.BigIntegerField(null=True)
 
 
 # Clase para la tabla Comentario
@@ -160,6 +162,7 @@ class comentario(models.Model):
     contenido_ticket = models.TextField()
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField()
+
 
 # Clase para la tabla del Historial del Ticket
 

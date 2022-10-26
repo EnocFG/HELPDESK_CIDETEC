@@ -20,9 +20,9 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('', BienvenidaView.as_view(), name='bienvenida'),
+    #path('', BienvenidaView.as_view(), name='bienvenida'),
     path('admin/', admin.site.urls),
-    path('app/', include('HelpdeskApp.urls')),
+    path('', include('HelpdeskApp.urls')),
     path('registro/', SignUpView.as_view(), name='sign_up'),
     path('login/', SignInView.as_view(), name='sign_in'),
     path('logout/', SignOutView.as_view(), name='sign_out'),
