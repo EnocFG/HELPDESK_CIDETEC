@@ -11,8 +11,8 @@ status_tickets=(
 )
 
 status_entidades=(
-     ('ACTIVO', 'ACTIVO'),
-    ('INACTIVO', 'INACTIVO'),
+    ( ('ACTIVO', 'ACTIVO'),
+    ('INACTIVO', 'INACTIVO'),)
 )
 
 prioridades=(

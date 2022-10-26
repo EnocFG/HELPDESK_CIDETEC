@@ -1,62 +1,35 @@
 from django.contrib import admin
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from django.forms import ModelForm
-from django import forms
-from django.contrib.admin.views.main import ChangeList
 
+from HelpdeskApp.models import status_e
+from HelpdeskApp.models import proyecto
+from HelpdeskApp.models import area
+from HelpdeskApp.models import rol
+from HelpdeskApp.models import especialidad
+from HelpdeskApp.models import usuario
+from HelpdeskApp.models import especialista
+from HelpdeskApp.models import prioridad
+from HelpdeskApp.models import status_ticket
+from HelpdeskApp.models import ticket
+from HelpdeskApp.models import comentario
+from HelpdeskApp.models import historial_ticket
 
-from .models import Status_E
-from .models import Proyecto
-from .models import Area
-from .models import Rol
-from .models import Especialidad
-from .models import Usuario
-from .models import Especialista
-from .models import Prioridad
-from .models import Status_Ticket
-from .models import Evidencia_Ticket
-from .models import Comentario
-from . import models
-
-
-from .models import Ticket
 
 
 
 
 # Register your models here.
-class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('folio', 'titulo', 'status')
-
-admin.site.register(models.Ticket,AuthorAdmin)
-
-
-admin.site.register(Status_E)
-admin.site.register (Proyecto,)
-admin.site.register (Area,)
-admin.site.register (Rol,)
-admin.site.register (Especialidad,)
-admin.site.register (Usuario,)
-admin.site.register (Prioridad,)
-admin.site.register(Status_Ticket,)
-admin.site.register(Evidencia_Ticket,)
-admin.site.register(Comentario,)
-admin.site.register(Especialista,)
+admin.site.register(status_e )
+admin.site.register(proyecto)
+admin.site.register(area)
+admin.site.register(rol)
+admin.site.register(especialidad)
+admin.site.register(usuario)
+admin.site.register(especialista)
+admin.site.register(prioridad)
+admin.site.register(status_ticket)
+admin.site.register(ticket)
+admin.site.register(comentario)
+admin.site.register(historial_ticket)
 
 
-
-
-# class EspecialistaForm(ModelForm):
-#     title = 'usuarios'
-#     usuarios = forms.ModelMultipleChoiceField(
-#         widget = FilteredSelectMultiple("especialista_usuario", is_stacked=False),
-#         queryset = usuario.objects.all()
-#     )
-#     class Meta:
-#         model = especialista
-#         fields = ('usuarios',)
-#
-# @admin.register(especialista)
-# class EspecialistaCatalogo(admin.ModelAdmin):
-#     form = EspecialistaForm
 
