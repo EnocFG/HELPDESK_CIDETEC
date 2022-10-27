@@ -34,8 +34,7 @@ class area(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     area_proyecto = models.ManyToManyField(proyecto)
-    status_entidad = models.ForeignKey(
-        status_e, null=True, blank=True, on_delete=models.CASCADE)
+    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
 
 
 # Clase Rol para la tabla Usuario

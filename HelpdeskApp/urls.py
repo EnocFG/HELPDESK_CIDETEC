@@ -19,8 +19,14 @@ from . import views
 urlpatterns = [
     # path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('ticket/', views.TicketApi),
-    path('ticket/<int:id>', views.TicketApi)
 
+    path('ticket/', views.TicketApi),
+    path('ticket/<int:id>', views.TicketApi),
+
+    path('proyecto/', views.ProyectoAPI),
+    path('proyecto/<int:id>', views.ProyectoAPI),
+
+    path('area/', views.AreaApi),
+    path('area/<int:id>', views.AreaApi),
 
 ]
