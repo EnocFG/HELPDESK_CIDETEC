@@ -1,36 +1,48 @@
 {% extends "base.html" %}
 
-{% block titulo %}
-{{ticket.titulo}}
+{% block title %}
+{{post.title}}
 {% endblock %}
 
 {% block content %}
 
+<div class="container">
+    <div class="row justify-content-md-center pt-5">
+        <div class="col-7"><h1>{{ticket.titulo}}</h1></div>
+        <div class="col-7"><p>{{ticket.descripcion|safe}}</p></div>
+        <div class="col-md-7">
+            {% with comments.count as total_comments %}
+            <h2>
+                {{ total_comments }} comment{{ total_comments|pluralize }}
+            </h2>
+            {% endwith %}
 
+            {% for comentario in comments %}
+            on {{ comentario.fecha_comentario }}
+            <div>
+                <br>
 
-        <div class="col-12"><h1><p>{{ticket.titulo}}</p></h1></div>
-        <div class="col-12"><p>{{ticket.folio}}</p></div>
-        <div class="col-12"><p>{{ticket.excerpt}}</p></div>
-        <div class="col-12"><p>{{ticket.publish}}</p></div>
-        <div class="col-12"><p>{{ticket.ticket_usario}}</p></div>
-        <div class="col-12"><p>{{ticket.especialista}}</p></div>
-        <div class="col-12"><p>{{ticket.ticket_tipoprioridad}}</p></div>
-        <div class="col-12"><p>{{ticket.ticket_tipostatus}}</p></div>
-        <div class="col-12"><p>{{ticket.status}}</p></div>
-        <div class="col-12"><p>{{ticket.coordenadas}}</p></div>
-        <a href="">{{ticket.evidencias}}</a>
-        <div class="col-12"><p>{{ticket.descripcion}}</p></div>
-        <div class="col-12"><p>{{ticket.ticket_proyecto}}</p></div>
-        <div class="col-12"><p>{{ticket.ticket_areaorigen}}</p></div>
-        <div class="col-12"><p>{{ticket.comentario_t}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_atendido}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_asignado}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_proceso}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_resuelto}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_validado}}</p></div>
-        <div class="col-12"><p>{{ticket.fecha_cancelado}}</p></div>
+            </div>
+            Comment {{ forloop.counter }} by {{ comentario.comentario_usuario }}
 
+            {{ comentario.contenido_ticket|linebreaks }}
 
+            {% empty %}
+            <p>There are no comments for this post.</p>
+            {% endfor %}
+            <h2>Make a new comment</h2>
 
+            <form id="myForm" method="post">
+                {{ comment_form.as_p }}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+<script>
+    $('#myForm').trigger("reset");
+</script>
 
 {% endblock %}
