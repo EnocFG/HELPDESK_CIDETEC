@@ -3,137 +3,170 @@ from .choices import status_entidades
 from .choices import roles
 from .choices import prioridades
 from .choices import status_tickets
-
-
 from django.utils import timezone
+from django.urls import reverse
 
-
-# Clase status de las entidades correpondenes a proyecto, area, usuario, especialista
-class status_e(models.Model):
+#Clase Status entidad
+class Status_E(models.Model):
 
     tipo_estatus = models.CharField(max_length=50, choices=status_entidades, default='ACTIVO')
+
     fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha incial')
     fecha_actualizacion = models.DateTimeField(auto_now=True, verbose_name='Fecha final')
 
     def __str__(self):
         return self.tipo_estatus
 
+    # Clase Proyecto
 # Clase Proyecto
-class proyecto(models.Model):
+class Proyecto(models.Model):
 
     nombre_proyecto = models.CharField(max_length=100)
     codigo_proyecto = models.CharField(max_length=10, unique=True)
     fecha_inicial = models.DateTimeField(auto_now_add=True, verbose_name='Fecha incial del proyecto')
     fecha_final = models.DateTimeField(auto_now=True, verbose_name='Fecha final del proyecto')
     descripcion = models.TextField(null=True)
+
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.CASCADE)
+
+#AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
-    fecha_actualizacion = models.DateTimeField(auto_now=True)
-    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
     def __str__(self):
         return self.nombre_proyecto
 
-#Clase Area para la tabla Proyecto
-class area(models.Model):
+#Clase Area
+class Area(models.Model):
 
     nombre_area = models.CharField(max_length=10)
     codigo_area = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(null=True)
+    area_proyecto = models.ManyToManyField(Proyecto)
+    status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.CASCADE)
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
-    area_proyecto = models.ManyToManyField(proyecto)
-    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.nombre_area
 
 #Clase Rol para la tabla Usuario
-class rol(models.Model):
+class Rol(models.Model):
+
     tipo_rol = models.CharField(max_length=2, choices=roles, default='SA')
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.tipo_rol
 
 #Clase Especilidad para la tabla Especialista
-class especialidad (models.Model):
+class Especialidad (models.Model):
+
     tipo_especialidad = models.CharField(max_length=100)
+    proyecto_especialidad = models.ForeignKey(Proyecto, null=True, blank=True, on_delete=models.CASCADE)
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
-    proyecto_especialidad = models.ForeignKey(proyecto, null=True, blank=True, on_delete=models.CASCADE)
+
     def __str__(self):
         return self.tipo_especialidad
+
 #Clase Usuario
-class usuario(models.Model):
+class Usuario(models.Model):
 
     codigo_usuario = models.CharField(max_length=20, unique=True)
-    nombre_usuario = models.TextField(max_length=50, verbose_name='Nombre del usuario')
-    apellidos_usuario = models.TextField(max_length=100, verbose_name='Apellidos del usuario')
+    nombre_usuario = models.TextField(max_length=50, verbose_name='Nombre usuario')
+    apellidos_usuario = models.TextField(max_length=100, verbose_name='Apellidos')
     email_usuario = models.EmailField(unique=True, verbose_name='Correo electrónico')
-    password = models.CharField(max_length=8, verbose_name='Ingrese su contraseña')
-    usuario_rol = models.ForeignKey(rol, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Tipo de rol')
-    usuario_proyecto = models.ManyToManyField(proyecto, verbose_name='Ingresa el proyecto al que perteneces')
-    usuario_area = models.ManyToManyField(area, verbose_name='Ingresa tu área')
-    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
-    # def __str__(self):
-    #     return self.codigo_usuario
+    password = models.CharField(max_length=8, verbose_name='Contraseña')
+    usuario_rol = models.ForeignKey(Rol, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Rol')
+    usuario_proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto')
+    usuario_area = models.ManyToManyField(Area, verbose_name='Área')
+
+    status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.CASCADE)
+
+
     def __str__(self):
-        return self.nombre_usuario + " " + self.apellidos_usuario
-
-
-# class proyecto_usuario (models.Model):
-#     usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-#     proyecto = models.ForeignKey(proyecto, on_delete=models.CASCADE)
-
-#Clase Area_Usuario para relacionar las tablas áreas
-# class area_usuario(models.Model):
-#     usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-#     area = models.ForeignKey(area, on_delete=models.CASCADE)
+        # import pdb; pdb.set_trace()
+        return str(self.nombre_usuario )+ " " + str(self.apellidos_usuario)
 
 #Clase Especialista para la tabla Especilidad
-class especialista(models.Model):
+class Especialista(models.Model):
 
+    status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.DO_NOTHING)
+    especialista_especialidad = models.ManyToManyField(Especialidad)
+    especialista_usuario = models.ForeignKey(Usuario, verbose_name='especialista_u', on_delete=models.CASCADE,  null=True, db_column='especialista_usuario')
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
-    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
-    especialista_especialidad = models.ManyToManyField(especialidad)
-    especialista_usuario = models.ManyToManyField(usuario)
 
+    def __str__(self):
+        #import pdb; pdb.set_trace()
+        return str(self.especialista_usuario)
+    class Meta:
+        db_table ='"HelpdeskApp_Especialista"'
 
-
-# class especialistas_especialidades(models.Model):
-#     especialista=models.ForeignKey(especialista, on_delete=models.CASCADE)
-#     especialidades=models.ForeignKey(especialidad, on_delete=models.CASCADE)
 # Clase para la tabla Prioridad
-class prioridad(models.Model):
+class Prioridad(models.Model):
+
     tipo_prioridad = models.CharField(max_length=50, choices=prioridades, default='Urgente')
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.tipo_prioridad
 
+
 # Clase para la tabla que relaciona el Estatus y Ticket
-class status_ticket(models.Model):
+class Status_Ticket(models.Model):
+
     tipo_estatus = models.CharField(max_length=10, choices=status_tickets, default='Creado')
+# AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.tipo_estatus
 
 # Clase para la tabla del Ticket
-class ticket(models.Model):
+#Post
+class Ticket(models.Model):
+    class NewManager(models.Manager):
+        def get_queryset(self):
+            return super().get_queryset() .filter(status='published')
+
+    options = (
+        ('draft', 'Draft'),
+        ('published', 'Published'),
+    )
+
     folio = models.CharField(max_length=20, unique=True)
-    titulo = models.CharField(max_length=100)
-    ticket_usario = models.ForeignKey(usuario, null=True, blank=True, on_delete=models.CASCADE)
-    ticket_especialistaas = models.ForeignKey(especialista, null=True, blank=True, on_delete=models.CASCADE)
-    ticket_tipoprioridad = models.ForeignKey(prioridad, null=True, blank=True, on_delete=models.CASCADE)
-    ticket_tipostatus = models.ForeignKey(status_ticket, null=True, blank=True, on_delete=models.CASCADE)
+# title
+    titulo = models.CharField(max_length=250)
+#extracto
+    excerpt = models.TextField(null=True, verbose_name='Extracto')
+    slug = models.SlugField(max_length=250, unique_for_date='publish', null=True)
+# fecha de creacion
+    publish = models.DateTimeField(default=timezone.now, verbose_name='Fecha actual')
+# author
+    ticket_usario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Usuario')
+    ticket_especialista = models.ForeignKey(Especialista, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Especialista')
+    ticket_tipoprioridad = models.ForeignKey(Prioridad, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Prioridad')
+#tipo status (9 status)
+    ticket_tipostatus = models.ForeignKey(Status_Ticket, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Status')
+#status
+    status = models.CharField(max_length=10,choices=options, default='draft', verbose_name='Activo/Inactivo')
     coordenadas = models.CharField(max_length=30)
-    evidencias = models.BinaryField()
+    evidencias = models.FileField(upload_to='evidencias', max_length=250, null=True, blank=True)
+# content
     descripcion = models.TextField(null=True)
-    ticket_proyecto = models.ForeignKey(proyecto, null=True, blank=True, on_delete=models.CASCADE)
-    ticket_areaorigen = models.ForeignKey(area, null=True, blank=True, on_delete=models.CASCADE)
-    comentario_t = models.TextField()
-    fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha creacion del ticket')
+    ticket_proyecto = models.ForeignKey(Proyecto, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Proyecto')
+    ticket_areaorigen = models.ForeignKey(Area, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Área')
+    comentario_t = models.TextField(verbose_name='Comentario')
+
+
+    # fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha creacion')
     fecha_atendido = models.DateTimeField(verbose_name='Fecha atendido')
     fecha_asignado = models.DateTimeField(verbose_name='Fecha asignado')
     fecha_proceso = models.DateTimeField(verbose_name='Fecha proceso')
@@ -142,26 +175,44 @@ class ticket(models.Model):
     fecha_cancelado = models.DateTimeField(verbose_name='Fecha cancelado')
     ticket_superior = models.BigIntegerField()
 
+    objects = models.Manager()  # default manager
+    newmanager = NewManager()  # custom manager
 
-class evidencia_ticket(models.Model):
+    def get_absolute_url(self):
+        return reverse('HelpdeskApp:ticket_single', args=[self.slug])
+    class Meta:
+        ordering = ('-publish',)
+    def __str__(self):
+        return self.titulo
+
+# Clse Evidencias de ticket
+class Evidencia_Ticket(models.Model):
 
     evidencia= models.BinaryField()
-    evidencia_ticket= models.ManyToManyField(ticket)
+
+    evidencia_ticket= models.ManyToManyField(Ticket)
 
 # Clase para la tabla Comentario
-class comentario(models.Model):
-    comentario_usuario = models.ForeignKey(usuario, null=True, blank=True, on_delete=models.CASCADE, related_name='comentario')
+#Comment
+class Comentario(models.Model):
+
+#name, email
+
+    comentario_usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE, related_name='comentario')
+#publish
     fecha_comentario = models.DateTimeField(default=timezone.now)
-    comentario_ticket = models.ForeignKey(ticket, null=True, blank=True, on_delete=models.CASCADE)
+#post
+    comentario_ticket = models.ForeignKey(Ticket, null=True, blank=True, on_delete=models.CASCADE)
+#content
     contenido_ticket = models.TextField()
+
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_culminacion = models.DateTimeField()
 
-# Clase para la tabla del Historial del Ticket
-class historial_ticket(models.Model):
-    ht_ticket = models.ForeignKey(ticket, on_delete=models.CASCADE)
-    ht_usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-    fecha_modificacion = models.DateTimeField(verbose_name='Fecha modificacion')
-    status_anterior = models.ForeignKey(status_ticket, null=True, blank=True, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
 
+    # class Meta:
+    #     ordering = ('-publish',)
 
+    # def __str__(self):
+    #     return f'Comment by {self.}'
