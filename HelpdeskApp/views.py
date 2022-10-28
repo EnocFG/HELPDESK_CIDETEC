@@ -198,6 +198,7 @@ class TicketDetalle(APIView):
             return Response(serial.data, status=status.HTTP_202_ACCEPTED)
         return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class AreaView(APIView):
     def get(self, request):
         areas = area.objects.all()
@@ -211,16 +212,20 @@ class AreaView(APIView):
             return Response(serial_area.data, status=status.HTTP_201_CREATED)
         return Response(serial_area.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 def get_object(id):
     try:
         return area.objects.get(id=id)
     except area.DoesNotExist:
         raise Http404
+
+
 class AreaDetalle(APIView):
     def get(self, request, id):
         a = get_object(id)
         serial_area = areaSerializer(a)
         return Response(serial_area.data)
+
     def put(self, request, id):
         a = get_object(id)
         serial_area = areaSerializer(a, data=request.data)
@@ -228,3 +233,12 @@ class AreaDetalle(APIView):
             serial_area.save()
             return Response(serial_area.data)
         return Response(serial_area.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        a = get_object(id)
+        serial = usuarioSerializer(a, data=request.data, partial=True)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
+
