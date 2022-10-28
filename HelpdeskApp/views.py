@@ -1,42 +1,50 @@
+from functools import partial
+from sys import api_version
+from tkinter.tix import Tree
+from django.http import Http404, HttpResponse
 from django.http.response import JsonResponse
+from django.shortcuts import get_list_or_404, get_object_or_404
+from django.urls import is_valid_path
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.parsers import JSONParser
-
+from rest_framework.response import Response
+from rest_framework.views import APIView
 import HelpdeskApp.models
 from .serializers import *
 
 
-@csrf_exempt
-def TicketApi(request, id=0):
-    ticket = HelpdeskApp.models.ticket
-    if request.method == 'GET':
-        tickets = ticket.objects.all().order_by('id')
-        tickets_serializer = ticketSerializer(tickets, many=True)
-        return JsonResponse(tickets_serializer.data, safe=False)
-
-    elif request.method == 'POST':
-        ticket_data = JSONParser().parse(request)
-        ticket_serializer = ticketSerializer(data=ticket_data)
-        if ticket_serializer.is_valid():
-            ticket_serializer.save()
-            return JsonResponse("Agregado exitosamente", safe=False)
-        return JsonResponse("Fallo al agregar", safe=False)
-
-    elif request.method == 'PUT':
-        ticket_data = JSONParser().parse(request)
-        ticket = ticket.objects.get(id=ticket_data['id'])
-        ticket_serializer = ticketSerializer(ticket, data=ticket_data)
-        if ticket_serializer.is_valid():
-            ticket_serializer.save()
-            return JsonResponse("Actualizado exitosamente", safe=False)
-        return JsonResponse("Fallo al actualizar", safe=False)
-
-    elif request.method == 'DELETE':
-        tickett = ticket.objects.get(id=id)
-        tickett.delete()
-        return JsonResponse("Eliminado exitosamente", safe=False)
-    return JsonResponse("Fallo al eliminar", safe=False)
+# @csrf_exempt
+# def TicketApi(request, id=0):
+#     ticket = HelpdeskApp.models.ticket
+#     if request.method == 'GET':
+#         tickets = ticket.objects.all().order_by('id')
+#         tickets_serializer = ticketSerializer(tickets, many=True)
+#         return JsonResponse(tickets_serializer.data, safe=False)
+#
+#     elif request.method == 'POST':
+#         ticket_data = JSONParser().parse(request)
+#         ticket_serializer = ticketSerializer(data=ticket_data)
+#         if ticket_serializer.is_valid():
+#             ticket_serializer.save()
+#             return JsonResponse("Agregado exitosamente", safe=False)
+#         return JsonResponse("Fallo al agregar", safe=False)
+#
+#     elif request.method == 'PUT':
+#         ticket_data = JSONParser().parse(request)
+#         t = ticket.objects.get(id=ticket_data['id'])
+#         ticket_serializer = ticketSerializer(t, data=ticket_data)
+#         if ticket_serializer.is_valid():
+#             ticket_serializer.save()
+#             return JsonResponse("Actualizado exitosamente", safe=False)
+#         return JsonResponse("Fallo al actualizar", safe=False)
+#
+#     elif request.method == 'DELETE':
+#         tickett = ticket.objects.get(id=id)
+#         tickett.delete()
+#         return JsonResponse("Eliminado exitosamente", safe=False)
+#     return JsonResponse("Fallo al eliminar", safe=False)
 
 
 @csrf_exempt
@@ -97,68 +105,126 @@ def AreaApi(request, id=0):
         return JsonResponse("Fallo al actualizar", safe=False)
 
     elif request.method == 'DELETE':
-        tickett = ticket.objects.get(id=id)
-        tickett.delete()
+        t = HelpdeskApp.models.ticket.objects.get(id=id)
+        t.delete()
         return JsonResponse("Eliminado exitosamente", safe=False)
     return JsonResponse("Fallo al eliminar", safe=False)
 
 
-class EstatusViewSet(viewsets.ModelViewSet):
-    queryset = status_e.objects.all()
-    serializer_class = EstatusSerializer  # permission_classes_by_action = {  #     'create': (permissions.IsAdminUser,),  #     'list': (permissions.IsAdminUser,),  #     'retrieve': (permissions.IsAdminUser,),  #     'update': (permissions.IsAdminUser,),  #     'destroy': (permissions.IsAdminUser,),  #     'search': (permissions.IsAdminUser,)  # <--- Option 1  # }
+class UsuarioView(APIView):
+    def get(self, request):
+        usuarios = usuario.objects.all()
+        serializer = usuarioSerializer(usuarios, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = usuarioSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class areaViewSet(viewsets.ModelViewSet):
-    queryset = area.objects.all()
-    serializer_class = areaSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+class UsuarioDetalle(APIView):
+    def get_object(self, id):
+        try:
+            return usuario.objects.get(id=id)
+        except usuario.DoesNotExist:
+            raise Http404
+
+    def get(self, request, id):
+        u = self.get_object(id)
+        serial = usuarioSerializer(u)
+        return Response(serial.data)
+
+    def put(self, request, id):
+        u = self.get_object(id)
+        serial = usuarioSerializer(u, data=request.data)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        u = self.get_object(id)
+        serial = usuarioSerializer(u, data=request.data, partial=True)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class proyectoViewSet(viewsets.ModelViewSet):
-    queryset = proyecto.objects.all()
-    serializer_class = proyectoSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+class TicketView(APIView):
+    def get(self, request):
+        tickets = ticket.objects.all()
+        ts = ticketSerializer(tickets, many=True)
+        return Response(ts.data)
+
+    def post(self, request):
+        ts = ticketSerializer(data=request.data)
+        if ts.is_valid():
+            ts.save()
+            return Response(ts.data, status=status.HTTP_201_CREATED)
+        return Response(ts.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class rolViewSet(viewsets.ModelViewSet):
-    queryset = rol.objects.all()
-    serializer_class = rolSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+def get_object(id):
+    try:
+        return ticket.objects.get(id=id)
+    except ticket.DoesNotExist:
+        raise Http404
 
 
-class espViewSet(viewsets.ModelViewSet):
-    queryset = especialidad.objects.all()
-    serializer_class = espSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+class TicketDetalle(APIView):
 
+    def get(self, request, id):
+        t = get_object(id)
+        ts = ticketSerializer(t)
+        return Response(ts.data)
 
-class prioViewSet(viewsets.ModelViewSet):
-    queryset = prioridad.objects.all()
-    serializer_class = prioSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+    def put(self, request, id):
+        t = get_object(id)
+        serial = usuarioSerializer(t, data=request.data)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def patch(self, request, id):
+        t = get_object(id)
+        serial = usuarioSerializer(t, data=request.data, partial=True)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class usuarioViewSet(viewsets.ModelViewSet):
-    queryset = usuario.objects.all()
-    serializer_class = usuarioSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+class AreaView(APIView):
+    def get(self, request):
+        areas = area.objects.all()
+        serial_area = areaSerializer(areas, many=True)
+        return Response(serial_area.data)
 
+    def post(self, request):
+        serial_area = areaSerializer(data=request.data)
+        if serial_area.is_valid():
+            serial_area.save()
+            return Response(serial_area.data, status=status.HTTP_201_CREATED)
+        return Response(serial_area.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class especViewSet(viewsets.ModelViewSet):
-    queryset = especialista.objects.all()
-    serializer_class = especSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
-
-
-# class ticketViewSet(viewsets.ModelViewSet):
-#     queryset = ticket.objects.all()
-#     serializer_class = ticketSerializer
-# permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
-
-
-class EstatusTicketViewSet(viewsets.ModelViewSet):
-    queryset = status_ticket.objects.all()
-    serializer_class = EstatusTicketSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
-
-
-class ComentarioViewSet(viewsets.ModelViewSet):
-    queryset = comentario.objects.all()
-    serializer_class = ComentarioSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
-
-
-class HistorialViewSet(viewsets.ModelViewSet):
-    queryset = historial_ticket.objects.all()
-    serializer_class = HistorialTicketSerializer  # permission_classes = [IsAdminUser | IsAuthenticatedOrReadOnly]
+def get_object(id):
+    try:
+        return area.objects.get(id=id)
+    except area.DoesNotExist:
+        raise Http404
+class AreaDetalle(APIView):
+    def get(self, request, id):
+        a = get_object(id)
+        serial_area = areaSerializer(a)
+        return Response(serial_area.data)
+    def put(self, request, id):
+        a = get_object(id)
+        serial_area = areaSerializer(a, data=request.data)
+        if serial_area.is_valid():
+            serial_area.save()
+            return Response(serial_area.data)
+        return Response(serial_area.errors, status=status.HTTP_400_BAD_REQUEST)

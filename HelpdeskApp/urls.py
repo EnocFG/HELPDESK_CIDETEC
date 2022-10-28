@@ -1,32 +1,18 @@
 from django.urls import include, path
-from rest_framework import routers
 from . import views
 
-# router = routers.DefaultRouter()
-# router.register(r'area', views.areaViewSet)
-# router.register(r'proyecto', views.proyectoViewSet)
-# router.register(r'rol', views.rolViewSet)
-# router.register(r'especialidad', views.espViewSet)
-# router.register(r'prioridad', views.prioViewSet)
-# router.register(r'usuario', views.usuarioViewSet)
-# router.register(r'especialista', views.especViewSet)
-# router.register(r'ticket', views.ticketViewSet)
-# router.register(r'estatus', views.EstatusViewSet)
-# router.register(r'estatus_ticket', views.EstatusTicketViewSet)
-# router.register(r'comentario', views.ComentarioViewSet)
-# router.register(r'historial_ticket', views.HistorialViewSet)
-
 urlpatterns = [
-    # path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    path('ticket/', views.TicketApi),
-    path('ticket/<int:id>', views.TicketApi),
+    path('ticket/', views.TicketView.as_view()),
+    path('ticket/<int:id>/', views.TicketDetalle.as_view()),
 
     path('proyecto/', views.ProyectoAPI),
     path('proyecto/<int:id>', views.ProyectoAPI),
 
-    path('area/', views.AreaApi),
-    path('area/<int:id>', views.AreaApi),
+    path('area/', views.AreaView.as_view()),
+    path('area/<int:id>/', views.AreaDetalle.as_view()),
+
+    path('usuario/', views.UsuarioView.as_view(), name='usuario'),
+    path('usuario/<int:id>/', views.UsuarioDetalle.as_view(), name='usuario_detalle'),
 
 ]

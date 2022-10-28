@@ -6,5 +6,4 @@
 *.pyc
 Helpdesk/__pycache__/settings.cpython-310.pyc
 Profiles/migrations/__pycache__/__init__.cpython-310.pyc
-Helpdesk/__pycache__/settings.cpython-310.pyc
 Profiles/__pycache__/forms.cpython-310.pyc

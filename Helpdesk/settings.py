@@ -28,13 +28,11 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8080",
+    "http://localhost:8000",
     "http://localhost:4200",
 ]
-# Application definition
 
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,9 +50,22 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
     # bootstrap
     'bootstrap5',
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
 
 # Formato para los templates o forms con Bootstrap 5
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -100,7 +111,6 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pruebasdb',
         'USER': 'postgres',
-        # 'PASSWORD': 'q',
         'PASSWORD': 'qui10te99',
         'HOST': '127.0.0.1',
         'DATABASE_PORT': '5432'
@@ -112,14 +122,16 @@ LOGIN_URL = 'cuenta/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
 # Agrega la autenticacion de allauth y manten la de model
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend']
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 # Personalizacion de los ajustes allauth
-ACCOUNT_AUTHENTICATION_METHOD = 'email'# Uso de email como identificador primario
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # Uso de email como identificador primario
 ACCOUNT_EMAIL_REQUIRED = True
 
 # Hacer obligatoria la verificacion de email para evitar cuentas basura
@@ -135,8 +147,6 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'cidetechelpdesk@gmail.com'
 EMAIL_HOST_PASSWORD = 'tcpnlzwpsftyqjbp'
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

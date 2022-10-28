@@ -15,18 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from Profiles.views import SignUpView, BienvenidaView, SignInView, SignOutView
-from django.conf import settings
 
+from Profiles.views import SignUpView, BienvenidaView, SignInView, SignOutView
 
 urlpatterns = [
-    #path('', BienvenidaView.as_view(), name='bienvenida'),
-    path('admin/', admin.site.urls),
+    path('', BienvenidaView.as_view(), name='bienvenida'),
     path('', include('HelpdeskApp.urls')),
+    path('admin/', admin.site.urls),
     path('registro/', SignUpView.as_view(), name='sign_up'),
     path('login/', SignInView.as_view(), name='sign_in'),
     path('logout/', SignOutView.as_view(), name='sign_out'),
     path('cuenta/', include('allauth.urls'), name='cuenta'),
-
-
 ]
