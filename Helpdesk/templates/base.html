@@ -18,13 +18,13 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              
               {% if user.is_authenticated %}
-              <a class="nav-link" href="http://localhost:8000/api/ticket/">Tickets</a>
-              <a class="nav-link" href="http://localhost:8000/api/proyecto/">Proyectos</a>
-              <a class="nav-link" href="http://localhost:8000/api/area/">Areas</a>
+              <a class="nav-link" href="http://localhost:8000/ticket/">Tickets</a>
+              <a class="nav-link" href="http://localhost:8000/proyecto/">Proyectos</a>
+              <a class="nav-link" href="http://localhost:8000/area/">Areas</a>
               <a class="nav-link" href="{% url 'sign_out' %}">Cerrar sesión</a>
               {% endif %}
+
             </div>
           </div>
         </div>

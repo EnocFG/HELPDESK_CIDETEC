@@ -45,8 +45,6 @@ class usuarioSerializer(serializers.ModelSerializer):
 
 
 class especSerializer(serializers.ModelSerializer):
-    id_usuario = serializers.CharField(source='usuario.nombre_usuario')
-
     class Meta:
         model = especialista
         fields = '__all__'
@@ -70,7 +68,4 @@ class ComentarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class HistorialTicketSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = historial_ticket
-        fields = '__all__'
+
