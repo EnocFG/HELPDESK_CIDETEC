@@ -72,16 +72,6 @@ class usuario(models.Model):
     usuario_area = models.ManyToManyField(area)
     status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
 
-
-# class proyecto_usuario (models.Model):
-#     usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-#     proyecto = models.ForeignKey(proyecto, on_delete=models.CASCADE)
-
-# Clase Area_Usuario para relacionar las tablas áreas
-# class area_usuario(models.Model):
-#     usuario = models.ForeignKey(usuario, on_delete=models.CASCADE)
-#     area = models.ForeignKey(area, on_delete=models.CASCADE)
-
 # Clase Especialista para la tabla Especilidad
 class especialista(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -90,11 +80,6 @@ class especialista(models.Model):
     especialista_especialidad = models.ForeignKey(especialidad, null=True, blank=True, on_delete=models.CASCADE)
     especialista_usuario = models.ManyToManyField(usuario)
 
-
-# class especialistas_especialidades(models.Model):
-#     especialista=models.ForeignKey(especialista, on_delete=models.CASCADE)
-#     especialidades=models.ForeignKey(especialidad, on_delete=models.CASCADE)
-# Clase para la tabla Prioridad
 
 
 class prioridad(models.Model):
