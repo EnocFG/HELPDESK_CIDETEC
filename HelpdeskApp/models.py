@@ -39,7 +39,6 @@ class proyecto(models.Model):
 
     # AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_culminacion = models.DateTimeField(auto_now=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
 

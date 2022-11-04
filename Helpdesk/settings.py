@@ -109,15 +109,15 @@ WSGI_APPLICATION = 'Helpdesk.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config()
-    # {
-        # 'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': 'pruebasdb',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'qui10te99',
-        # 'HOST': '127.0.0.1',
-        # 'DATABASE_PORT': '5432'
-        # }
+    'default': 
+    {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pruebasdb',
+        'USER': 'postgres',
+        'PASSWORD': 'qui10te99',
+        'HOST': '127.0.0.1',
+        'DATABASE_PORT': '5432'
+        }
 }
 
 # Redireccionamiento para el Login o Logout
