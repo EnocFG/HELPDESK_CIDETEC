@@ -2,14 +2,19 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 
+<<<<<<< HEAD
+=======
+from .choices import roles
+>>>>>>> parent of 4049b6c (cambios en la base de datos)
 from .choices import prioridades
 from .choices import roles
 from .choices import status_entidades
 from .choices import status_tickets
 
 
-# Clase Status entidad
+# Clase status de las entidades correpondenes a proyecto, area, usuario, especialista
 class status_e(models.Model):
+<<<<<<< HEAD
     tipo_estatus = models.CharField(
         max_length=50, choices=status_entidades, default='Inactivo')
     # AUDITORIA
@@ -19,12 +24,17 @@ class status_e(models.Model):
 
     def __str__(self):
         return self.tipo_estatus
+=======
+    tipo_estatus = models.CharField(max_length=100)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_culminacion = models.DateTimeField()
+
+>>>>>>> parent of 4049b6c (cambios en la base de datos)
 
 
 # Clase Proyecto
-
-
 class proyecto(models.Model):
+<<<<<<< HEAD
     nombre_proyecto = models.CharField(max_length=150)
     codigo_proyecto = models.CharField(max_length=10)
 
@@ -40,9 +50,19 @@ class proyecto(models.Model):
                                        on_delete=models.CASCADE)
 
     # AUDITORIA
+=======
+    nombre_proyecto = models.CharField(max_length=50)
+    codigo_proyecto = models.CharField(max_length=5)
+    fecha_inicial = models.DateTimeField(verbose_name='Fecha incial')
+    fecha_final = models.DateTimeField(verbose_name='Fecha final')
+    descripcion = models.TextField(null=True)
+>>>>>>> parent of 4049b6c (cambios en la base de datos)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(auto_now=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
 
+<<<<<<< HEAD
     def __str__(self):
         return self.nombre_proyecto
 
@@ -57,11 +77,18 @@ class area(models.Model):
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
     # AUDITORIA
-    fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateTimeField(null=True)
+=======
 
-    def __str__(self):
-        return self.nombre_area
+# Clase Area para la tabla Proyecto
+class area(models.Model):
+    nombre_area = models.CharField(max_length=10)
+    codigo_area = models.CharField(max_length=5)
+    descripcion = models.TextField(null=True)
+>>>>>>> parent of 4049b6c (cambios en la base de datos)
+    fecha_creacion = models.DateTimeField(auto_now_add=True)
+    fecha_actualizacion = models.DateTimeField(auto_now=True)
+    area_proyecto = models.ManyToManyField(proyecto)
+    status_entidad = models.ForeignKey(status_e, null=True, blank=True, on_delete=models.CASCADE)
 
 
 # Clase Rol para la tabla Usuario
