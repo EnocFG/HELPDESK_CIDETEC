@@ -1,12 +1,3 @@
 /.idea
-/virtual
-/venv
-/__pycache__
-.pyc
-*.pyc
-Helpdesk/__pycache__/settings.cpython-310.pyc
-Profiles/migrations/__pycache__/__init__.cpython-310.pyc
-Profiles/__pycache__/forms.cpython-310.pyc
-*.pyc
-*.pyc
+/env
 *.pyc
