@@ -1,18 +1,17 @@
 from django.db import models
 from django.urls import reverse
 from django.utils import timezone
-
 from .choices import prioridades
 from .choices import roles
 from .choices import status_entidades
 from .choices import status_tickets
 
 
-# Clase status de las entidades correpondenes a proyecto, area, usuario, especialista
+# Clase status de las entidades
 class status_e(models.Model):
     tipo_estatus = models.CharField(
         max_length=50, choices=status_entidades, default='Inactivo')
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha incial')
     fecha_actualizacion = models.DateTimeField(null=True)
@@ -37,7 +36,7 @@ class proyecto(models.Model):
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
 
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     status_entidad = models.ForeignKey(
@@ -56,7 +55,7 @@ class area(models.Model):
     status_entidad = models.ForeignKey(status_e,
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     area_proyecto = models.ManyToManyField(proyecto)
@@ -65,12 +64,9 @@ class area(models.Model):
 
 
 # Clase Rol para la tabla Usuario
-
-
-# Clase Rol para la tabla Usuario
 class rol(models.Model):
     tipo_rol = models.CharField(max_length=2, choices=roles, default='SA')
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(null=True)
     fecha_actualizacion = models.DateTimeField(null=True)
 
@@ -84,7 +80,7 @@ class especialidad(models.Model):
     proyecto_especialidad = models.ForeignKey(proyecto,
                                               null=True, blank=True,
                                               on_delete=models.CASCADE)
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(null=True)
 
@@ -115,7 +111,7 @@ class usuario(models.Model):
     status_entidad = models.ForeignKey(
         status_e, null=True, blank=True, on_delete=models.CASCADE)
 
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(auto_now=True)
     fecha_actualizacion = models.DateTimeField(null=True)
 
@@ -131,7 +127,7 @@ class especialista(models.Model):
     especialista_especialidad = models.ManyToManyField(especialidad)
     especialista_usuario = models.ForeignKey(usuario, verbose_name='especialista_u', on_delete=models.CASCADE,
                                              null=True, db_column='especialista_usuario')
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(auto_now=True)
     fecha_culminacion = models.DateTimeField(null=True)
 
@@ -146,7 +142,7 @@ class especialista(models.Model):
 class prioridad(models.Model):
     tipo_prioridad = models.CharField(
         max_length=50, choices=prioridades, default='Urgente')
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(default=timezone.now)
     fecha_culminacion = models.DateTimeField(null=True)
 
@@ -158,7 +154,7 @@ class prioridad(models.Model):
 class status_ticket(models.Model):
     tipo_estatus = models.CharField(
         max_length=10, choices=status_tickets, default='Creado')
-    # AUDITORIA
+    # Auditoria
     fecha_creacion = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

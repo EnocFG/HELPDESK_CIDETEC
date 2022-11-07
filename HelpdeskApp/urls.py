@@ -1,6 +1,8 @@
 from django.urls import include, path
 from . import views
 from django.contrib.auth.decorators import login_required
+
+
 urlpatterns = [
 
     path('ticket/', login_required(views.TicketView.as_view())),
@@ -20,4 +22,6 @@ urlpatterns = [
 
     path('especialista', login_required(views.EspecialistaView.as_view())),
     path('especialista/<int:id>/', login_required(views.EspecDetalle.as_view())),
+
+
 ]

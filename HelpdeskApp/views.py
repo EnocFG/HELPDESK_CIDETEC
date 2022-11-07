@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 
-
+#Vista para mostrar todos los tickets
 class TicketView(APIView):
     def get(self, request):
         tickets = ticket.objects.all()
@@ -18,7 +18,7 @@ class TicketView(APIView):
             return Response(ts.data, status=status.HTTP_201_CREATED)
         return Response(ts.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+#Vista para obtener solamente un ticket determinado
 class TicketDetalle(APIView):
     def get_object(self, id):
         try:
@@ -80,6 +80,14 @@ class ProyectoDetalle(APIView):
             ps.save()
             return Response(ps.data, status=status.HTTP_202_ACCEPTED)
         return Response(ps.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        p = self.get_object(id)
+        serial = ticketSerializer(p, data=request.data, partial=True)
+        if serial.is_valid():
+            serial.save()
+            return Response(serial.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UsuarioView(APIView):
@@ -242,4 +250,3 @@ class EspecDetalle(APIView):
             es.save()
             return Response(es.data, status=status.HTTP_202_ACCEPTED)
         return Response(es.errors, status=status.HTTP_400_BAD_REQUEST)
-

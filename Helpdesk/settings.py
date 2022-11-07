@@ -53,7 +53,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     # bootstrap
     'bootstrap5',
+    'rest_framework_swagger',
 ]
+
+PGTRIGGER_INSTALL_ON_MIGRATE = True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
