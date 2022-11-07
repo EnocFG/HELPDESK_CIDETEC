@@ -1,9 +1,11 @@
 from django.urls import include, path
 from . import views
 from django.contrib.auth.decorators import login_required
-
-
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+router.register('ejemplo', views.ejemploview, basename='mi_ejemplo')
 urlpatterns = [
+    path('', include(router.urls)),
 
     path('ticket/', login_required(views.TicketView.as_view())),
     path('ticket/<int:id>/', login_required(views.TicketDetalle.as_view())),

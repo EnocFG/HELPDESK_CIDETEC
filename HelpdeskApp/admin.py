@@ -3,5 +3,4 @@ from .models import *
 
 admin.site.register(ticket)
 admin.site.register(proyecto)
-admin.site.register(status_e)
-
+admin.site.register(usuario)

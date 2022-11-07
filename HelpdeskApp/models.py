@@ -3,14 +3,26 @@ from django.urls import reverse
 from django.utils import timezone
 from .choices import prioridades
 from .choices import roles
-from .choices import status_entidades
-from .choices import status_tickets
+from .choices import estatus_entidades
+from .choices import estatus_tickets
+import pgtrigger
+import pghistory
 
 
-# Clase status de las entidades
-class status_e(models.Model):
+@pghistory.track(
+    pghistory.AfterInsert(label='Inserción'),
+    pghistory.BeforeUpdate(label='Antes de Actualizar'),
+    pghistory.AfterUpdate(label='Actualización'),
+    pghistory.BeforeDelete(label='Antes de Eliminar'),
+    )
+class ejemplo(models.Model):
+    nombre = models.CharField(verbose_name=("Nombre"), max_length=50)
+    edad = models.IntegerField(null=True, verbose_name=("edad"))
+
+# Clase estatus de las entidades
+class estatus_e(models.Model):
     tipo_estatus = models.CharField(
-        max_length=50, choices=status_entidades, default='Inactivo')
+        max_length=50, choices=estatus_entidades, default='Inactivo')
     # Auditoria
     fecha_creacion = models.DateTimeField(
         auto_now_add=True, verbose_name='Fecha incial')
@@ -32,15 +44,15 @@ class proyecto(models.Model):
 
     descripcion = models.TextField(null=True, blank=True)
 
-    status_entidad = models.ForeignKey(status_e,
+    estatus_entidad = models.ForeignKey(estatus_e,
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
 
     # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
-    status_entidad = models.ForeignKey(
-        status_e, null=True, blank=True, on_delete=models.CASCADE)
+    estatus_entidad = models.ForeignKey(
+        estatus_e, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre_proyecto
@@ -52,15 +64,15 @@ class area(models.Model):
     codigo_area = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(null=True, blank=True)
     area_proyecto = models.ManyToManyField(proyecto)
-    status_entidad = models.ForeignKey(status_e,
+    estatus_entidad = models.ForeignKey(estatus_e,
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
     # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     area_proyecto = models.ManyToManyField(proyecto)
-    status_entidad = models.ForeignKey(
-        status_e, null=True, blank=True, on_delete=models.CASCADE)
+    estatus_entidad = models.ForeignKey(
+        estatus_e, null=True, blank=True, on_delete=models.CASCADE)
 
 
 # Clase Rol para la tabla Usuario
@@ -108,8 +120,8 @@ class usuario(models.Model):
         proyecto, verbose_name='Proyecto')
     usuario_area = models.ManyToManyField(area, verbose_name='Área')
 
-    status_entidad = models.ForeignKey(
-        status_e, null=True, blank=True, on_delete=models.CASCADE)
+    estatus_entidad = models.ForeignKey(
+        estatus_e, null=True, blank=True, on_delete=models.CASCADE)
 
     # Auditoria
     fecha_creacion = models.DateTimeField(auto_now=True)
@@ -118,10 +130,16 @@ class usuario(models.Model):
     def __str__(self):
         return str(self.nombre_usuario) + " " + str(self.apellidos_usuario)
 
+    class Meta:
+        triggers = [
+            pgtrigger.Protect(name='proteger_proyecto',
+                              operation=pgtrigger.Delete)
+        ]
+
 
 # Clase Especialista para la tabla Especilidad
 class especialista(models.Model):
-    status_entidad = models.ForeignKey(status_e,
+    estatus_entidad = models.ForeignKey(estatus_e,
                                        null=True, blank=True,
                                        on_delete=models.DO_NOTHING)
     especialista_especialidad = models.ManyToManyField(especialidad)
@@ -151,9 +169,9 @@ class prioridad(models.Model):
 
 
 # Clase para la tabla que relaciona el Estatus y Ticket
-class status_ticket(models.Model):
+class estatus_ticket(models.Model):
     tipo_estatus = models.CharField(
-        max_length=10, choices=status_tickets, default='Creado')
+        max_length=10, choices=estatus_tickets, default='Creado')
     # Auditoria
     fecha_creacion = models.DateTimeField(default=timezone.now)
 
@@ -189,10 +207,10 @@ class ticket(models.Model):
     prioridad = models.ForeignKey(prioridad, null=True, blank=True, on_delete=models.CASCADE,
                                   verbose_name='Prioridad')
     # tipo status (9 status)
-    ticket_tipostatus = models.ForeignKey(status_ticket, null=True, blank=True, on_delete=models.CASCADE,
+    estatus = models.ForeignKey(estatus_ticket, null=True, blank=True, on_delete=models.CASCADE,
                                           verbose_name='Status')
     # status
-    status = models.CharField(
+    estatus_entidad = models.CharField(
         max_length=10, choices=options, default='draft', verbose_name='Activo/Inactivo')
     coordenadas = models.CharField(null=True, max_length=30)
     evidencias = models.FileField(

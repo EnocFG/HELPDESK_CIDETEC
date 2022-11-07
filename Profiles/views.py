@@ -15,7 +15,7 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         '''
-        En este parte, si el formulario es valido guardamos lo que se obtiene de él y usamos authenticate para que el usuario incie sesión luego de haberse registrado y lo redirigimos al index
+        En este parte, si el formulario es valido guardamos lo que se obtiene de él y usamos authenticate para que el usuario inicie sesión luego de haberse registrado y lo redirigimos al index
         '''
         form.save()
         usuario = form.cleaned_data.get('username')

@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 class EstatusSerializer(serializers.ModelSerializer):
     class Meta:
-        model = status_e
+        model = estatus_e
         fields = '__all__'
 
 
@@ -58,7 +58,7 @@ class ticketSerializer(serializers.ModelSerializer):
 
 class EstatusTicketSerializer(serializers.ModelSerializer):
     class Meta:
-        model = status_ticket
+        model = estatus_ticket
         fields = '__all__'
 
 
@@ -68,4 +68,7 @@ class ComentarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class ejemploSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ejemplo
+        fields = '__all__'

@@ -40,20 +40,36 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #App donde se encuetra la API
     'HelpdeskApp.apps.HelpdeskappConfig',
+
+    #Framework REST
     'rest_framework',
+
+    #App de perfiles
     'Profiles',
+
+    #Formato para los formularios
     "crispy_forms",
     "crispy_bootstrap5",
-    # APPs de autenticación
+
+    # Apps de autenticación
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+
     # bootstrap
     'bootstrap5',
+
+    #Documentación con Swagger
     'rest_framework_swagger',
+
+    #Disparadores
+    'pgtrigger',
+    'pghistory'
 ]
 
 PGTRIGGER_INSTALL_ON_MIGRATE = True
@@ -83,8 +99,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
 ]
 
 ROOT_URLCONF = 'Helpdesk.urls'

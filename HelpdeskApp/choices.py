@@ -1,4 +1,4 @@
-status_tickets=(
+estatus_tickets=(
     ('1','Creado'),
     ('2','Atendido'),
     ('3','Asignado'),
@@ -10,7 +10,7 @@ status_tickets=(
     ('9','Reasignado')
 )
 
-status_entidades=(
+estatus_entidades=(
     ('1','Activo'),
     ('2','Inactivo')
 )

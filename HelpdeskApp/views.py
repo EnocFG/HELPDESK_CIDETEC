@@ -3,6 +3,12 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
+from rest_framework import viewsets
+
+#vista ejemplo
+class ejemploview(viewsets.ModelViewSet):
+    queryset = ejemplo.objects.all()
+    serializer_class = ejemploSerializer
 
 #Vista para mostrar todos los tickets
 class TicketView(APIView):
