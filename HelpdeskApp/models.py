@@ -48,12 +48,8 @@ class Area(models.Model):
     nombre_area = models.CharField(max_length=150)
     codigo_area = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(null=True, blank=True)
-<<<<<<< HEAD
     area_proyecto = models.ForeignKey(Proyecto, null=True, blank=True,
                                             on_delete=models.CASCADE)
-=======
-    area_proyecto = models.ManyToManyField(Proyecto)
->>>>>>> 51dd937b5ba01694e221fac59c56ca1c7bca0a88
     status_entidad = models.ForeignKey(Status_E,
                                        null=True, blank=True,
                                        on_delete=models.CASCADE)
@@ -72,6 +68,7 @@ class Rol(models.Model):
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
     fecha_culminacion = models.DateTimeField(null=True)
+
 
     def __str__(self):
         return self.tipo_rol
@@ -257,3 +254,7 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f'Comment by {self.comentario_usuario}'
+
+
+
+
