@@ -5,9 +5,14 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register("ejemplo", views.ejemploview, basename="mi_ejemplo")
-router.register("rol", views.RolView, basename="rol")
+
+router.register("rol", views.RolView, basename="Rol")
+router.register("prioridad", views.PrioridadView, basename="Prioridad")
+router.register("estatus_ticket", views.EstatusTicketView, basename="Estatus-Ticket")
 urlpatterns = [
+    # Routas de viewsets
     path("", include(router.urls)),
+    # Rutas de vistas basadas en clases
     path("ticket/", login_required(views.TicketView.as_view())),
     path("ticket/<int:id>/", login_required(views.TicketDetalle.as_view())),
     path("proyecto/", login_required(views.ProyectoView.as_view())),

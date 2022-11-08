@@ -72,3 +72,9 @@ class ejemploSerializer(serializers.ModelSerializer):
     class Meta:
         model = ejemplo
         fields = "__all__"
+
+
+class evidenciaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = evidencia_ticket
+        fields = "__all__"

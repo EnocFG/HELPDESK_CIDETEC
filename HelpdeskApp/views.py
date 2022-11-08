@@ -292,6 +292,7 @@ class EstatusView(APIView):
 def ObtenerEstatus(id):
     return get_object_or_404(estatus_e, id=id)
 
+
 class EstatusDetalle(APIView):
     def get(self, request, id):
         est = ObtenerEstatus(id)
@@ -314,6 +315,25 @@ class EstatusDetalle(APIView):
             return Response(es.data, status=status.HTTP_202_ACCEPTED)
         return Response(es.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class RolView(viewsets.ModelViewSet):
     queryset = rol.objects.all()
     serializer_class = rolSerializer
+
+
+class PrioridadView(viewsets.ModelViewSet):
+    queryset = prioridad.objects.all()
+    serializer_class = prioSerializer
+
+
+class EstatusTicketView(viewsets.ModelViewSet):
+    queryset = estatus_ticket.objects.all()
+    serializer_class = EstatusTicketSerializer
+
+
+"""
+No sirvio esta vista AttributeError: type object 'evidencia_ticket' has no attribute 'get_extra_actions'
+ class EvidenciaView(viewsets.ModelViewSet):
+    queryset = evidencia_ticket.objects.all()
+    serializer_class = evidenciaSerializer 
+"""

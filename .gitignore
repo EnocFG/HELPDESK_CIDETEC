@@ -4,3 +4,4 @@
 *.pyc
 *.cpython
 .vscode/settings.json
+/__pycache__
