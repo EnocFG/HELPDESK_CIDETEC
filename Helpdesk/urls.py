@@ -5,6 +5,8 @@ from rest_framework.schemas import get_schema_view
 from rest_framework.schemas import get_schema_view
 from Profiles.views import *
 urlpatterns = [
+    #OAUTH urls
+    path('o/', include('oauth2_provider.urls', namespace='oauth_provider')),
     path('', BienvenidaView.as_view(), name='bienvenida'),
     path('', include('HelpdeskApp.urls')),
 

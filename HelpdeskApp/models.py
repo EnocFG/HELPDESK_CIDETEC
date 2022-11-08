@@ -14,10 +14,11 @@ import pghistory
     pghistory.BeforeUpdate(label='Antes de Actualizar'),
     pghistory.AfterUpdate(label='Actualización'),
     pghistory.BeforeDelete(label='Antes de Eliminar'),
-    )
+)
 class ejemplo(models.Model):
-    nombre = models.CharField(verbose_name=("Nombre"), max_length=50)
+    nombre = models.CharField(verbose_name="Nombre", max_length=50)
     edad = models.IntegerField(null=True, verbose_name=("edad"))
+
 
 # Clase estatus de las entidades
 class estatus_e(models.Model):
@@ -45,8 +46,8 @@ class proyecto(models.Model):
     descripcion = models.TextField(null=True, blank=True)
 
     estatus_entidad = models.ForeignKey(estatus_e,
-                                       null=True, blank=True,
-                                       on_delete=models.CASCADE)
+                                        null=True, blank=True,
+                                        on_delete=models.CASCADE)
 
     # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
@@ -65,8 +66,8 @@ class area(models.Model):
     descripcion = models.TextField(null=True, blank=True)
     area_proyecto = models.ManyToManyField(proyecto)
     estatus_entidad = models.ForeignKey(estatus_e,
-                                       null=True, blank=True,
-                                       on_delete=models.CASCADE)
+                                        null=True, blank=True,
+                                        on_delete=models.CASCADE)
     # Auditoria
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     fecha_actualizacion = models.DateTimeField(auto_now=True)
@@ -140,8 +141,8 @@ class usuario(models.Model):
 # Clase Especialista para la tabla Especilidad
 class especialista(models.Model):
     estatus_entidad = models.ForeignKey(estatus_e,
-                                       null=True, blank=True,
-                                       on_delete=models.DO_NOTHING)
+                                        null=True, blank=True,
+                                        on_delete=models.DO_NOTHING)
     especialista_especialidad = models.ManyToManyField(especialidad)
     especialista_usuario = models.ForeignKey(usuario, verbose_name='especialista_u', on_delete=models.CASCADE,
                                              null=True, db_column='especialista_usuario')
@@ -208,7 +209,7 @@ class ticket(models.Model):
                                   verbose_name='Prioridad')
     # tipo status (9 status)
     estatus = models.ForeignKey(estatus_ticket, null=True, blank=True, on_delete=models.CASCADE,
-                                          verbose_name='Status')
+                                verbose_name='Status')
     # status
     estatus_entidad = models.CharField(
         max_length=10, choices=options, default='draft', verbose_name='Activo/Inactivo')
