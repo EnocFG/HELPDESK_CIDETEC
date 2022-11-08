@@ -1,4 +1,9 @@
 {
     "livePreview.defaultPreviewPath": "c:\\Repos\\HELPDESK_CIDETEC\\env\\Lib\\site-packages\\allauth\\templates\\account\\email.html",
-    "editor.fontFamily": "JetBrains Mono, Consolas, 'Courier New', monospace"
+    "editor.fontFamily": "SF Pro Regular",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "modifications",
+    "editor.formatOnType": true,
+    "terminal.integrated.fontFamily": "Fira Code"
 }

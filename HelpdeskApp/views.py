@@ -4,13 +4,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 
-#vista ejemplo
+
+# vista ejemplo
 class ejemploview(viewsets.ModelViewSet):
     queryset = ejemplo.objects.all()
     serializer_class = ejemploSerializer
 
-#Vista para mostrar todos los tickets
+
+# Vista para mostrar todos los tickets
+
+
 class TicketView(APIView):
     def get(self, request):
         tickets = ticket.objects.all()
@@ -24,7 +30,10 @@ class TicketView(APIView):
             return Response(ts.data, status=status.HTTP_201_CREATED)
         return Response(ts.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#Vista para obtener solamente un ticket determinado
+
+# Vista para obtenerEspecialista solamente un ticket determinado
+
+
 class TicketDetalle(APIView):
     def get_object(self, id):
         try:
@@ -182,11 +191,13 @@ class AreaDetalle(APIView):
             return Response(serial.data, status=status.HTTP_202_ACCEPTED)
         return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ComentarioView(APIView):
     def get(self, request):
-        comentarios = comentario.objects.all().order_by('id')
+        comentarios = comentario.objects.all().order_by("id")
         cs = ComentarioSerializer(comentarios, many=True)
         return Response(cs.data)
+
     def post(self, request):
         cs = ComentarioSerializer(data=request.data)
         if cs.is_valid():
@@ -194,12 +205,14 @@ class ComentarioView(APIView):
             return Response(cs.data, status=status.HTTP_201_CREATED)
         return Response(cs.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class ComentarioDetalle(APIView):
     def get_object(self, id):
         try:
             return comentario.objects.get(id=id)
         except comentario.DoesNotExist:
             raise Http404
+
     def get(self, request, id):
         c = self.get_object(id)
         cs = ComentarioSerializer(c)
@@ -212,6 +225,7 @@ class ComentarioDetalle(APIView):
             cs.save()
             return Response(cs.data, status=status.HTTP_200_OK)
         return Response(cs.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def patch(self, request, id):
         c = self.get_object(id)
         cs = ComentarioSerializer(c, data=request.data, partial=True)
@@ -219,36 +233,39 @@ class ComentarioDetalle(APIView):
             cs.save()
             return Response(cs.data, status=status.HTTP_202_ACCEPTED)
 
-class EspecialistaView(APIView):
+
+class Especialista(APIView):
     def get(self, request):
-        es = especialista.objects.all()
-        es_se= especSerializer(es, many=True)
-        return Response(es_se.data, status=status.HTTP_200_OK)
+        especialistas = especialista.objects.all()
+        serial_especialista = especSerializer(especialistas, many=True)
+        return Response(serial_especialista.data)
 
     def post(self, request):
-        es_se = especSerializer(data=request.data)
-        if es_se.is_valid():
-            es_se.save()
-            return Response(es_se.data, status=status.HTTP_201_CREATED)
-        return Response(es_se.errors, status=status.HTTP_400_BAD_REQUEST)
+        serial_especialista = especSerializer(data=request.data)
+        if serial_especialista.is_valid():
+            serial_especialista.save()
+            return Response(serial_especialista.data, status=status.HTTP_201_CREATED)
+        return Response(serial_especialista.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_object(id):
-        try:
-            return especialista.objects.get(id=id)
-        except especialista.DoesNotExist:
-            raise Http404
-class EspecDetalle(APIView):
+
+def ObtenerEspecialista(id):
+    return get_object_or_404(especialista, id=id)
+
+
+class EspecialistaDetalle(APIView):
     def get(self, request, id):
-        e = get_object(id)
-        es = especSerializer(e)
-        return Response(es.data, status=status.HTTP_200_OK)
+        esp = ObtenerEspecialista(id)
+        serial_esp = especSerializer(esp)
+        return Response(serial_esp.data)
+
     def put(self, request, id):
-        e = get_object(id)
+        e = ObtenerEspecialista(id)
         es = especSerializer(e, data=request.data)
         if es.is_valid():
             es.save()
             return Response(es.data, status=status.HTTP_202_ACCEPTED)
         return Response(es.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def patch(self, request, id):
         e = get_object(id)
         es = especSerializer(e, data=request.data, partial=True)
@@ -256,3 +273,47 @@ class EspecDetalle(APIView):
             es.save()
             return Response(es.data, status=status.HTTP_202_ACCEPTED)
         return Response(es.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class EstatusView(APIView):
+    def get(self, request):
+        estatus = estatus_e.objects.all()
+        serial_estatus = EstatusSerializer(estatus, many=True)
+        return Response(serial_estatus.data)
+
+    def post(self, request):
+        serial_estatus = EstatusSerializer(data=request.data)
+        if serial_estatus.is_valid():
+            serial_estatus.save()
+            return Response(serial_estatus.data, status=status.HTTP_201_CREATED)
+        return Response(serial_estatus.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def ObtenerEstatus(id):
+    return get_object_or_404(estatus_e, id=id)
+
+class EstatusDetalle(APIView):
+    def get(self, request, id):
+        est = ObtenerEstatus(id)
+        serial = EstatusSerializer(est)
+        return Response(serial.data, status=status.HTTP_200_OK)
+
+    def put(self, request, id):
+        est = ObtenerEspecialista(id)
+        serial_es = EstatusSerializer(est, data=request.data)
+        if serial_es.is_valid():
+            serial_es.save()
+            return Response(serial_es.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serial_es.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def patch(self, request, id):
+        e = get_object(id)
+        es = EstatusSerializer(e, data=request.data, partial=True)
+        if es.is_valid():
+            es.save()
+            return Response(es.data, status=status.HTTP_202_ACCEPTED)
+        return Response(es.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RolView(viewsets.ModelViewSet):
+    queryset = rol.objects.all()
+    serializer_class = rolSerializer
