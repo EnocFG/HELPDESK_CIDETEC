@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 from .serializers import *
 from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 
 
 # vista ejemplo
@@ -30,11 +29,11 @@ class TicketView(APIView):
             return Response(ts.data, status=status.HTTP_201_CREATED)
         return Response(ts.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-# Vista para obtenerEspecialista solamente un ticket determinado
+# Vista para recuperar un ticket
 
 
 class TicketDetalle(APIView):
+    # Función get_object para recuperar una instancia de Ticket
     def get_object(self, id):
         try:
             return ticket.objects.get(id=id)
@@ -98,7 +97,7 @@ class ProyectoDetalle(APIView):
 
     def patch(self, request, id):
         p = self.get_object(id)
-        serial = ticketSerializer(p, data=request.data, partial=True)
+        serial = proyectoSerializer(p, data=request.data, partial=True)
         if serial.is_valid():
             serial.save()
             return Response(serial.data, status=status.HTTP_202_ACCEPTED)
@@ -185,7 +184,7 @@ class AreaDetalle(APIView):
 
     def patch(self, request, id):
         a = get_object(id)
-        serial = usuarioSerializer(a, data=request.data, partial=True)
+        serial = areaSerializer(a, data=request.data, partial=True)
         if serial.is_valid():
             serial.save()
             return Response(serial.data, status=status.HTTP_202_ACCEPTED)
@@ -317,6 +316,10 @@ class EstatusDetalle(APIView):
 
 
 class RolView(viewsets.ModelViewSet):
+    """
+    Vista de la tabla Rol que existe en el sistema Helpdesk
+    """
+
     queryset = rol.objects.all()
     serializer_class = rolSerializer
 
@@ -329,11 +332,3 @@ class PrioridadView(viewsets.ModelViewSet):
 class EstatusTicketView(viewsets.ModelViewSet):
     queryset = estatus_ticket.objects.all()
     serializer_class = EstatusTicketSerializer
-
-
-"""
-No sirvio esta vista AttributeError: type object 'evidencia_ticket' has no attribute 'get_extra_actions'
- class EvidenciaView(viewsets.ModelViewSet):
-    queryset = evidencia_ticket.objects.all()
-    serializer_class = evidenciaSerializer 
-"""

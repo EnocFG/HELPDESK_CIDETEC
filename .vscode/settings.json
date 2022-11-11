@@ -1,9 +1,11 @@
 {
     "livePreview.defaultPreviewPath": "c:\\Repos\\HELPDESK_CIDETEC\\env\\Lib\\site-packages\\allauth\\templates\\account\\email.html",
-    "editor.fontFamily": "SF Pro Regular",
+    "editor.fontFamily": "Iosevka Regular, Monoid Regular, Fira Code",
     "editor.formatOnPaste": true,
     "editor.formatOnSave": true,
     "editor.formatOnSaveMode": "file",
     "editor.formatOnType": true,
-    "terminal.integrated.fontFamily": "Fira Code"
+    "terminal.integrated.fontFamily": "",
+    "files.autoSave": "onFocusChange",
+    "editor.fontSize": 18
 }

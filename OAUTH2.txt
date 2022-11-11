@@ -1,0 +1,3 @@
+client_id: oCJbPrQmPZebjMOxs1TUdRqjUR7tldKq4rnkfW9v
+
+client_secret: cddC63VVltfE6tgkfPg3XQuBeI5YL9ct0vZtf0jFbc5akSaep8HWGibn0qBoPzuloUsLByEMuGqVkWfTj5sFCjvA8hunBwyDIAv9IHIPlMrYPsNIwNFINEHReSnzDvZY
