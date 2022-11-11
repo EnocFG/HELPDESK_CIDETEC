@@ -5,6 +5,8 @@ from .choices import prioridades
 from .choices import status_tickets
 from django.utils import timezone
 from django.urls import reverse
+import pghistory
+import pgtrigger
 
 
 # Clase Status entidad
@@ -98,13 +100,20 @@ class Usuario(models.Model):
     apellidos_usuario = models.TextField(max_length=250, verbose_name='Apellidos')
     email_usuario = models.EmailField(unique=True, verbose_name='Correo electrónico')
     password = models.CharField(max_length=8, verbose_name='Contraseña')
+
     usuario_rol = models.ForeignKey(Rol,
                                     null=True, blank=True,
                                     on_delete=models.CASCADE,
                                     verbose_name='Rol')
 
-    usuario_proyecto = models.ManyToManyField(Proyecto, verbose_name='Proyecto')
-    usuario_area = models.ManyToManyField(Area, verbose_name='Área')
+    usuario_proyecto = models.ForeignKey(Proyecto,
+                                    null=True, blank=True,
+                                    on_delete=models.CASCADE,
+                                    verbose_name='Proyecto')
+    usuario_area = models.ForeignKey(Area,
+                                    null=True, blank=True,
+                                    on_delete=models.CASCADE,
+                                    verbose_name='Area')
 
     status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.CASCADE)
 
@@ -255,7 +264,128 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f'Comment by {self.comentario_usuario}'
+# class Auditoria(models.Model):
+# #
+#     usuario = models.CharField(max_length=200)
+#     fecha = models.DateTimeField(default=timezone.now)
+#     accion = models.CharField(max_length=100)
+#
+#     id_status_e = models.BigIntegerField(null=True)
+#     id_proyecto = models.BigIntegerField(null=True)
+#     id_area = models.BigIntegerField(null=True)
+#     id_rol = models.BigIntegerField(null=True)
+#     id_especialidad = models.BigIntegerField(null=True)
+#     id_usuario = models.BigIntegerField(null=True)
+#     id_especialista = models.BigIntegerField(null=True)
+#     id_prioridad = models.BigIntegerField(null=True)
+#     id_status_ticket = models.BigIntegerField(null=True)
+#     id_ticket = models.BigIntegerField(null=True)
+#     id_comentario = models.BigIntegerField(null=True)
+#
+#     fecha_creacion = models.DateTimeField(null=True)
+#     fecha_actualizacion = models.DateTimeField(null=True)
+#     fecha_culminacion = models.DateTimeField(null=True)
+
+class Bitacora(models.Model):
 
 
+    fecha = models.DateTimeField(default=timezone.now)
+    usuario = models.CharField(max_length=200)
+    accion = models.CharField(max_length=100)
+
+    id_status_e = models.BigIntegerField(null=True)
+    tipo_estatus = models.CharField(max_length=50, null=True)
+
+    id_proyecto = models.BigIntegerField(null=True)
+    nombre_proyecto = models.CharField(max_length=150, null=True)
+    codigo_proyecto = models.CharField(max_length=10, null=True)
+    descripcion = models.TextField(null=True, blank=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_area = models.BigIntegerField(null=True)
+    nombre_area = models.CharField(max_length=150, null=True)
+    codigo_area = models.CharField(max_length=10, null=True)
+    descripcion = models.TextField(null=True, blank=True)
+    area_proyecto = models.BigIntegerField(null=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_rol = models.BigIntegerField(null=True)
+    tipo_rol = models.CharField(max_length=2, null=True)
+
+    id_especialidad = models.BigIntegerField(null=True)
+    tipo_especialidad = models.CharField(max_length=100, null=True)
+    proyecto_especialidad = models.BigIntegerField(null=True)
+
+    id_usuario = models.BigIntegerField(null=True)
+    codigo_usuario = models.CharField(max_length=20, null=True)
+    nombre_usuario = models.TextField(max_length=150, null=True)
+    apellidos_usuario = models.TextField(max_length=250, null=True)
+    email_usuario = models.EmailField(null=True)
+    password = models.CharField(max_length=8, null=True)
+    usuario_rol = models.BigIntegerField(null=True)
+    usuario_proyecto = models.BigIntegerField(null=True)
+    usuario_area = models.BigIntegerField(null=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_especialista = models.BigIntegerField(null=True)
+
+    id_prioridad = models.BigIntegerField(null=True)
+    tipo_prioridad = models.CharField(max_length=50, null=True)
+
+    id_status_ticket = models.BigIntegerField(null=True)
+    tipo_estatus = models.CharField(max_length=10, null=True)
+
+    id_ticket = models.BigIntegerField(null=True)
+    folio = models.CharField(max_length=20, null=True)
+    titulo = models.CharField(max_length=250, null=True)
+    coordenadas= models.CharField(max_length=30, null=True)
+    evidencias= models.FileField(upload_to='evidencias', max_length=250, null=True, blank=True)
+    descripcion = models.TextField(null=True)
+    comentario_t = models.TextField(null=True)
+
+    ticket_usario = models.BigIntegerField(null=True)
+    ticket_especialista= models.BigIntegerField(null=True)
+    ticket_tipoprioridad= models.BigIntegerField(null=True)
+    ticket_tipostatus= models.BigIntegerField(null=True)
+    ticket_proyecto= models.BigIntegerField(null=True)
+    ticket_areaorigen= models.BigIntegerField(null=True)
+
+    id_comentario = models.BigIntegerField(null=True)
+
+    contenido_ticket = models.TextField()
+    status = models.BooleanField(null=True)
+    comentario_usuario = models.BigIntegerField(null=True)
+    comentario_ticket = models.BigIntegerField(null=True)
 
 
+class AUDIT(models.Model):
+
+    fecha = models.DateTimeField(default=timezone.now)
+    accion = models.CharField(max_length=100)
+
+    id_status_e = models.BigIntegerField(null=True)
+    id_proyecto = models.BigIntegerField(null=True)
+    id_area = models.BigIntegerField(null=True)
+    id_rol = models.BigIntegerField(null=True)
+    id_especialidad = models.BigIntegerField(null=True)
+    id_usuario = models.BigIntegerField(null=True)
+    id_especialista = models.BigIntegerField(null=True)
+    id_prioridad = models.BigIntegerField(null=True)
+    id_status_ticket = models.BigIntegerField(null=True)
+    id_ticket = models.BigIntegerField(null=True)
+    id_comentario = models.BigIntegerField(null=True)
+
+    fecha_creacion = models.DateTimeField(null=True)
+    fecha_actualizacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(null=True)
+
+
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
+)
+class ejemplo(models.Model):
+    nombre = models.CharField(verbose_name="Nombre", max_length=50)
+    edad = models.IntegerField(null=True, verbose_name=("edad"))

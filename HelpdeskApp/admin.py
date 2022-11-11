@@ -17,6 +17,7 @@ from .models import Status_Ticket
 from .models import Evidencia_Ticket
 from .models import Comentario
 from . import models
+from .models import ejemplo
 
 
 from .models import Ticket
@@ -41,7 +42,8 @@ admin.site.register (Prioridad,)
 admin.site.register(Status_Ticket,)
 admin.site.register(Evidencia_Ticket,)
 admin.site.register(Comentario,)
-admin.site.register(Especialista,)
+admin.site.register(Especialista)
+admin.site.register(ejemplo)
 
 
 
@@ -59,4 +61,6 @@ admin.site.register(Especialista,)
 # @admin.register(especialista)
 # class EspecialistaCatalogo(admin.ModelAdmin):
 #     form = EspecialistaForm
+
+
 

@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'HelpdeskApp',
+    'pgtrigger',
+    'pghistory',
 ]
 
 MIDDLEWARE = [
@@ -79,7 +81,7 @@ WSGI_APPLICATION = 'Helpdesk.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'HELPDESK',
+        'NAME': 'Helpdesk',
         'USER':'postgres',
         'PASSWORD':'q',
         'HOST': '127.0.0.1',
