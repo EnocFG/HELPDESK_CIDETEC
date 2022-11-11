@@ -48,7 +48,8 @@ class Area(models.Model):
     nombre_area = models.CharField(max_length=150)
     codigo_area = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(null=True, blank=True)
-    area_proyecto = models.ForeignKey(Proyecto, null=True, blank=True,
+    area_proyecto = models.ForeignKey(Proyecto,
+                                            null=True, blank=True,
                                             on_delete=models.CASCADE)
     status_entidad = models.ForeignKey(Status_E,
                                        null=True, blank=True,
