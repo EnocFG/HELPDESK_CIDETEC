@@ -9,6 +9,20 @@ import pghistory
 import pgtrigger
 
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
+
+    fields=["id",
+            "tipo_estatus",
+            "fecha_creacion",
+            "fecha_actualizacion"],
+
+    model_name="Auditoria_Status_E"
+)
+
 # Clase Status entidad
 class Status_E(models.Model):
 
@@ -20,7 +34,19 @@ class Status_E(models.Model):
     def __str__(self):
         return self.tipo_estatus
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "codigo_proyecto",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Proyecto"
+)
 # Clase Proyecto
 class Proyecto(models.Model):
 
@@ -44,7 +70,19 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre_proyecto
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "codigo_area",
+            "fecha_creacion",
+            "fecha_actualizacion"],
+
+    model_name="Auditoria_Area"
+)
 # Clase Area
 class Area(models.Model):
     nombre_area = models.CharField(max_length=150)
@@ -64,6 +102,19 @@ class Area(models.Model):
         return self.nombre_area
 
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
+
+    fields=["id",
+            "tipo_rol",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Rol"
+)
 # Clase Rol para la tabla Usuario
 class Rol(models.Model):
 
@@ -76,7 +127,19 @@ class Rol(models.Model):
     def __str__(self):
         return self.tipo_rol
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "tipo_especialidad",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Especialidad"
+)
 # Clase Especilidad para la tabla Especialista
 class Especialidad(models.Model):
 
@@ -91,7 +154,18 @@ class Especialidad(models.Model):
     def __str__(self):
         return self.tipo_especialidad
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "codigo_usuario",
+            "fecha_creacion"],
+
+    model_name="Auditoria_Usuarios"
+)
 # Clase Usuario
 class Usuario(models.Model):
     codigo_usuario = models.CharField(max_length=20, unique=True)
@@ -124,7 +198,18 @@ class Usuario(models.Model):
         # import pdb; pdb.set_trace()
         return str(self.nombre_usuario) + " " + str(self.apellidos_usuario)
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Especialista"
+)
 # Clase Especialista para la tabla Especilidad
 class Especialista(models.Model):
 
@@ -145,7 +230,19 @@ class Especialista(models.Model):
     class Meta:
         db_table = '"HelpdeskApp_Especialista"'
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "tipo_prioridad",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Prioridad"
+)
 # Clase para la tabla Prioridad
 class Prioridad(models.Model):
 
@@ -157,7 +254,18 @@ class Prioridad(models.Model):
     def __str__(self):
         return self.tipo_prioridad
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "tipo_estatus",
+            "fecha_creacion"],
+
+    model_name="Auditoria_Status_Ticket"
+)
 # Clase para la tabla que relaciona el Estatus y Ticket
 class Status_Ticket(models.Model):
 
@@ -168,7 +276,20 @@ class Status_Ticket(models.Model):
 
     def __str__(self):
         return self.tipo_estatus
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
 
+    fields=["id",
+            "folio",
+            "publish",
+            "fecha_validado",
+            "fecha_cancelado"],
+
+    model_name="Auditoria_Ticket"
+)
 
 # Clase para la tabla del Ticket
 # Post
@@ -236,9 +357,20 @@ class Ticket(models.Model):
 # Clse Evidencias de ticket
 class Evidencia_Ticket(models.Model):
     evidencia = models.BinaryField()
-
     evidencia_ticket = models.ManyToManyField(Ticket)
 
+@pghistory.track(
+    pghistory.AfterInsert(label="Inserción"),
+    pghistory.BeforeUpdate(label="Antes de Actualizar"),
+    pghistory.AfterUpdate(label="Actualización"),
+    pghistory.BeforeDelete(label="Antes de Eliminar"),
+
+    fields=["id",
+            "fecha_creacion",
+            "fecha_culminacion"],
+
+    model_name="Auditoria_Comentario"
+)
 
 # Clase para la tabla Comentario
 # Comment
@@ -264,27 +396,15 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f'Comment by {self.comentario_usuario}'
-# class Auditoria(models.Model):
-# #
-#     usuario = models.CharField(max_length=200)
-#     fecha = models.DateTimeField(default=timezone.now)
-#     accion = models.CharField(max_length=100)
-#
-#     id_status_e = models.BigIntegerField(null=True)
-#     id_proyecto = models.BigIntegerField(null=True)
-#     id_area = models.BigIntegerField(null=True)
-#     id_rol = models.BigIntegerField(null=True)
-#     id_especialidad = models.BigIntegerField(null=True)
-#     id_usuario = models.BigIntegerField(null=True)
-#     id_especialista = models.BigIntegerField(null=True)
-#     id_prioridad = models.BigIntegerField(null=True)
-#     id_status_ticket = models.BigIntegerField(null=True)
-#     id_ticket = models.BigIntegerField(null=True)
-#     id_comentario = models.BigIntegerField(null=True)
-#
-#     fecha_creacion = models.DateTimeField(null=True)
-#     fecha_actualizacion = models.DateTimeField(null=True)
-#     fecha_culminacion = models.DateTimeField(null=True)
+class Historial_Ticket(models.Model):
+
+    id_ticket = models.ForeignKey(Ticket, null=True, blank=True, on_delete=models.CASCADE)
+    id_usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
+
+    estatus_ticket = models.CharField(max_length=100, null=True)
+    especialita = models.CharField(max_length=100,null=True)
+
+    fecha_modificacion = models.DateTimeField(default=timezone.now)
 
 class Bitacora(models.Model):
 
@@ -358,34 +478,3 @@ class Bitacora(models.Model):
     comentario_ticket = models.BigIntegerField(null=True)
 
 
-class AUDIT(models.Model):
-
-    fecha = models.DateTimeField(default=timezone.now)
-    accion = models.CharField(max_length=100)
-
-    id_status_e = models.BigIntegerField(null=True)
-    id_proyecto = models.BigIntegerField(null=True)
-    id_area = models.BigIntegerField(null=True)
-    id_rol = models.BigIntegerField(null=True)
-    id_especialidad = models.BigIntegerField(null=True)
-    id_usuario = models.BigIntegerField(null=True)
-    id_especialista = models.BigIntegerField(null=True)
-    id_prioridad = models.BigIntegerField(null=True)
-    id_status_ticket = models.BigIntegerField(null=True)
-    id_ticket = models.BigIntegerField(null=True)
-    id_comentario = models.BigIntegerField(null=True)
-
-    fecha_creacion = models.DateTimeField(null=True)
-    fecha_actualizacion = models.DateTimeField(null=True)
-    fecha_culminacion = models.DateTimeField(null=True)
-
-
-@pghistory.track(
-    pghistory.AfterInsert(label="Inserción"),
-    pghistory.BeforeUpdate(label="Antes de Actualizar"),
-    pghistory.AfterUpdate(label="Actualización"),
-    pghistory.BeforeDelete(label="Antes de Eliminar"),
-)
-class ejemplo(models.Model):
-    nombre = models.CharField(verbose_name="Nombre", max_length=50)
-    edad = models.IntegerField(null=True, verbose_name=("edad"))
