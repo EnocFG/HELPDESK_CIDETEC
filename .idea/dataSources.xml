@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Helpdesk@localhost" uuid="9f51bd17-dd5b-4944-9b3b-06453cd9efb5">
+    <data-source source="LOCAL" name="HelpdeskApp@localhost" uuid="54daa9ae-ed16-4bdf-986e-0810dacfc961">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/Helpdesk</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/HelpdeskApp</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="HelpdeskApp@localhost [2]" uuid="0d7927a8-822e-4e74-9ea6-aecdeb7e9272">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/HelpdeskApp</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

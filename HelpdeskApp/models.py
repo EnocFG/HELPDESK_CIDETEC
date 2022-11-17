@@ -29,7 +29,7 @@ class Status_E(models.Model):
     tipo_estatus = models.CharField(max_length=50, choices=status_entidades, default='ACTIVO')
     #AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now, verbose_name='Fecha incial')
-    fecha_actualizacion = models.DateTimeField(null=True)
+    fecha_actualizacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.tipo_estatus
@@ -54,18 +54,18 @@ class Proyecto(models.Model):
     codigo_proyecto = models.CharField(max_length=10, unique=True)
 
     fecha_inicial = models.DateTimeField(auto_now_add=True, verbose_name='Fecha incial')
-    fecha_final = models.DateTimeField(null=True, verbose_name='Fecha final del proyecto')
+    fecha_final = models.DateTimeField(blank=True, null=True, verbose_name='Fecha final del proyecto')
 
-    descripcion = models.TextField(null=True, blank=True)
+    descripcion = models.TextField(blank=True, null=True)
 
     fecha_actualizacion = models.DateTimeField(auto_now=True)
     status_entidad = models.ForeignKey(Status_E,
-                                       null=True, blank=True,
+                                       blank=True, null=True,
                                        on_delete=models.CASCADE)
 
     # AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.nombre_proyecto
@@ -89,14 +89,14 @@ class Area(models.Model):
     codigo_area = models.CharField(max_length=10, unique=True)
     descripcion = models.TextField(null=True, blank=True)
     area_proyecto = models.ForeignKey(Proyecto,
-                                            null=True, blank=True,
+                                            blank=True, null=True,
                                             on_delete=models.CASCADE)
     status_entidad = models.ForeignKey(Status_E,
-                                       null=True, blank=True,
+                                       blank=True, null=True,
                                        on_delete=models.CASCADE)
     # AUDITORIA
     fecha_creacion = models.DateTimeField(auto_now_add=True)
-    fecha_actualizacion = models.DateTimeField(null=True)
+    fecha_actualizacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.nombre_area
@@ -121,7 +121,7 @@ class Rol(models.Model):
     tipo_rol = models.CharField(max_length=2, choices=roles, default='SA')
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
 
     def __str__(self):
@@ -145,11 +145,11 @@ class Especialidad(models.Model):
 
     tipo_especialidad = models.CharField(max_length=100)
     proyecto_especialidad = models.ForeignKey(Proyecto,
-                                              null=True, blank=True,
+                                              blank=True, null=True,
                                               on_delete=models.CASCADE)
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.tipo_especialidad
@@ -162,7 +162,8 @@ class Especialidad(models.Model):
 
     fields=["id",
             "codigo_usuario",
-            "fecha_creacion"],
+            "fecha_creacion",
+            "fecha_actulizacion"],
 
     model_name="Auditoria_Usuarios"
 )
@@ -176,23 +177,24 @@ class Usuario(models.Model):
     password = models.CharField(max_length=8, verbose_name='Contraseña')
 
     usuario_rol = models.ForeignKey(Rol,
-                                    null=True, blank=True,
+                                    blank=True, null=True,
                                     on_delete=models.CASCADE,
                                     verbose_name='Rol')
 
     usuario_proyecto = models.ForeignKey(Proyecto,
-                                    null=True, blank=True,
+                                    blank=True, null=True,
                                     on_delete=models.CASCADE,
                                     verbose_name='Proyecto')
     usuario_area = models.ForeignKey(Area,
-                                    null=True, blank=True,
+                                    blank=True, null=True,
                                     on_delete=models.CASCADE,
                                     verbose_name='Area')
 
-    status_entidad = models.ForeignKey(Status_E, null=True, blank=True, on_delete=models.CASCADE)
+    status_entidad = models.ForeignKey(Status_E, blank=True, null=True, on_delete=models.CASCADE)
 
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
+    fecha_actulizacion = models.DateTimeField(null=True, blank=True,)
 
     def __str__(self):
         # import pdb; pdb.set_trace()
@@ -214,14 +216,14 @@ class Usuario(models.Model):
 class Especialista(models.Model):
 
     status_entidad = models.ForeignKey(Status_E,
-                                       null=True, blank=True,
+                                       blank=True, null=True,
                                        on_delete=models.DO_NOTHING)
     especialista_especialidad = models.ManyToManyField(Especialidad)
     especialista_usuario = models.ForeignKey(Usuario, verbose_name='especialista_u', on_delete=models.CASCADE,
-                                             null=True, db_column='especialista_usuario')
+                                             blank=True, null=True, db_column='especialista_usuario')
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         # import pdb; pdb.set_trace()
@@ -249,7 +251,7 @@ class Prioridad(models.Model):
     tipo_prioridad = models.CharField(max_length=50, choices=prioridades, default='Urgente')
     # AUDITORIA
     fecha_creacion = models.DateTimeField(default=timezone.now)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.tipo_prioridad
@@ -312,34 +314,35 @@ class Ticket(models.Model):
     # fecha de creacion
     publish = models.DateTimeField(default=timezone.now, verbose_name='Fecha creacion')
     # author
-    ticket_usario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Usuario')
-    ticket_especialista = models.ForeignKey(Especialista, null=True, blank=True, on_delete=models.CASCADE,
+    ticket_usario = models.ForeignKey(Usuario, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Usuario')
+    ticket_especialista = models.ForeignKey(Especialista, blank=True, null=True, on_delete=models.CASCADE,
                                             verbose_name='Especialista')
-    ticket_tipoprioridad = models.ForeignKey(Prioridad, null=True, blank=True, on_delete=models.CASCADE,
+    ticket_tipoprioridad = models.ForeignKey(Prioridad, blank=True, null=True, on_delete=models.CASCADE,
                                              verbose_name='Prioridad')
     # tipo status (9 status)
-    ticket_tipostatus = models.ForeignKey(Status_Ticket, null=True, blank=True, on_delete=models.CASCADE,
+    ticket_tipostatus = models.ForeignKey(Status_Ticket, blank=True, null=True, on_delete=models.CASCADE,
                                           verbose_name='Status')
     # status
     status = models.CharField(max_length=10, choices=options, default='draft', verbose_name='Activo/Inactivo')
     coordenadas = models.CharField(max_length=30)
-    evidencias = models.FileField(upload_to='evidencias', max_length=250, null=True, blank=True)
+    evidencias = models.FileField(upload_to='evidencias', max_length=250, blank=True, null=True)
     # content
     descripcion = models.TextField(null=True)
-    ticket_proyecto = models.ForeignKey(Proyecto, null=True, blank=True, on_delete=models.CASCADE,
+    ticket_proyecto = models.ForeignKey(Proyecto, blank=True, null=True, on_delete=models.CASCADE,
                                         verbose_name='Proyecto')
-    ticket_areaorigen = models.ForeignKey(Area, null=True, blank=True, on_delete=models.CASCADE, verbose_name='Área')
+    ticket_areaorigen = models.ForeignKey(Area, blank=True, null=True, on_delete=models.CASCADE, verbose_name='Área')
 
     comentario_t = models.TextField(verbose_name='Comentario')
 
     # fecha_creacion = models.DateTimeField(auto_now_add=True, verbose_name='Fecha creacion')
-    fecha_atendido = models.DateTimeField(null=True, verbose_name='Fecha atendido')
-    fecha_asignado = models.DateTimeField(null=True, verbose_name='Fecha asignado')
-    fecha_proceso = models.DateTimeField(null=True, verbose_name='Fecha proceso')
-    fecha_resuelto = models.DateTimeField(null=True, verbose_name='Fecha resuelto')
-    fecha_validado = models.DateTimeField(null=True, verbose_name='Fecha validado')
-    fecha_cancelado = models.DateTimeField(null=True, verbose_name='Fecha cancelado')
-    ticket_superior = models.BigIntegerField(null=True)
+    fecha_atendido = models.DateTimeField(blank=True, null=True, verbose_name='Fecha atendido')
+    fecha_asignado = models.DateTimeField(blank=True, null=True, verbose_name='Fecha asignado')
+    fecha_proceso = models.DateTimeField(blank=True, null=True, verbose_name='Fecha proceso')
+    fecha_espera = models.DateTimeField(blank=True, null=True, verbose_name='Fecha espera')
+    fecha_resuelto = models.DateTimeField(blank=True, null=True, verbose_name='Fecha resuelto')
+    fecha_validado = models.DateTimeField(blank=True, null=True, verbose_name='Fecha validado')
+    fecha_cancelado = models.DateTimeField(blank=True, null=True, verbose_name='Fecha cancelado')
+    ticket_superior = models.BigIntegerField(blank=True, null=True)
 
     objects = models.Manager()  # default manager
     newmanager = NewManager()  # custom manager
@@ -377,17 +380,17 @@ class Evidencia_Ticket(models.Model):
 class Comentario(models.Model):
     # name, email
 
-    comentario_usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE,
+    comentario_usuario = models.ForeignKey(Usuario, blank=True, null=True, on_delete=models.CASCADE,
                                            related_name='comments')
     # publish
     fecha_comentario = models.DateTimeField(default=timezone.now)
     # post
-    comentario_ticket = models.ForeignKey(Ticket, null=True, blank=True, on_delete=models.CASCADE)
+    comentario_ticket = models.ForeignKey(Ticket, blank=True, null=True, on_delete=models.CASCADE)
     # content
     contenido_ticket = models.TextField()
 
-    fecha_creacion = models.DateTimeField(default=timezone.now, null=True, blank=True)
-    fecha_culminacion = models.DateTimeField(null=True)
+    fecha_creacion = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
 
     status = models.BooleanField(default=True)
 
@@ -396,21 +399,21 @@ class Comentario(models.Model):
 
     def __str__(self):
         return f'Comment by {self.comentario_usuario}'
-class Historial_Ticket(models.Model):
+class Historial(models.Model):
 
-    id_ticket = models.ForeignKey(Ticket, null=True, blank=True, on_delete=models.CASCADE)
-    id_usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
+    accion = models.CharField(max_length=100, null=True)
 
-    estatus_ticket = models.CharField(max_length=100, null=True)
-    especialita = models.CharField(max_length=100,null=True)
+    id_ticket = models.BigIntegerField(null=True)
+    id_usuario = models.BigIntegerField(null=True)
+    id_especialita = models.BigIntegerField(null=True)
+    id_estatus_ticket = models.BigIntegerField(null=True)
 
-    fecha_modificacion = models.DateTimeField(default=timezone.now)
-
+    fecha_modificacion = models.DateTimeField(blank=True, null=True)
 class Bitacora(models.Model):
 
 
     fecha = models.DateTimeField(default=timezone.now)
-    usuario = models.CharField(max_length=200)
+    usuario = models.CharField(max_length=200, blank=True, null=True)
     accion = models.CharField(max_length=100)
 
     id_status_e = models.BigIntegerField(null=True)
