@@ -416,6 +416,10 @@ class Bitacora(models.Model):
     usuario = models.CharField(max_length=200, blank=True, null=True)
     accion = models.CharField(max_length=100)
 
+    fecha_creacion = models.DateTimeField(blank=True, null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
+    fecha_actulizacion = models.DateTimeField(blank=True, null=True)
+
     id_status_e = models.BigIntegerField(null=True)
     tipo_estatus = models.CharField(max_length=50, null=True)
 
@@ -461,6 +465,7 @@ class Bitacora(models.Model):
     id_ticket = models.BigIntegerField(null=True)
     folio = models.CharField(max_length=20, null=True)
     titulo = models.CharField(max_length=250, null=True)
+    status = models.CharField(max_length=10, blank=True,null=True)
     coordenadas= models.CharField(max_length=30, null=True)
     evidencias= models.FileField(upload_to='evidencias', max_length=250, null=True, blank=True)
     descripcion = models.TextField(null=True)
@@ -473,11 +478,117 @@ class Bitacora(models.Model):
     ticket_proyecto= models.BigIntegerField(null=True)
     ticket_areaorigen= models.BigIntegerField(null=True)
 
+    ticket_superior = models.BigIntegerField(null=True)
+
+    publish = models.DateTimeField(blank=True, null=True)
+    fecha_atendido = models.DateTimeField(blank=True, null=True)
+    fecha_asignado = models.DateTimeField(blank=True, null=True)
+    fecha_proceso = models.DateTimeField(blank=True, null=True)
+    fecha_espera = models.DateTimeField(blank=True, null=True)
+    fecha_resuelto = models.DateTimeField(blank=True, null=True)
+    fecha_validado = models.DateTimeField(blank=True, null=True)
+    fecha_cancelado = models.DateTimeField(blank=True, null=True)
+
+
     id_comentario = models.BigIntegerField(null=True)
 
     contenido_ticket = models.TextField()
-    status = models.BooleanField(null=True)
+    status = models.BooleanField(default=True)
     comentario_usuario = models.BigIntegerField(null=True)
     comentario_ticket = models.BigIntegerField(null=True)
 
+
+class Respaldo(models.Model):
+
+
+    fecha = models.DateTimeField(default=timezone.now)
+    # usuario = models.CharField(max_length=200, blank=True, null=True)
+    # accion = models.CharField(max_length=100)
+
+    fecha_creacion = models.DateTimeField(blank=True, null=True)
+    fecha_culminacion = models.DateTimeField(blank=True, null=True)
+    fecha_actulizacion = models.DateTimeField(blank=True, null=True)
+
+    fecha_inicial= models.DateTimeField(blank=True, null=True)
+    fecha_final = models.DateTimeField(blank=True, null=True)
+    fecha_actualizacion = models.DateTimeField(blank=True, null=True)
+
+    id_status_e = models.BigIntegerField(null=True)
+    tipo_estatus = models.CharField(max_length=50, null=True)
+
+    id_proyecto = models.BigIntegerField(null=True)
+    nombre_proyecto = models.CharField(max_length=150, null=True)
+    codigo_proyecto = models.CharField(max_length=10, null=True)
+    descripcion_p = models.TextField(null=True, blank=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_area = models.BigIntegerField(null=True)
+    nombre_area = models.CharField(max_length=150, null=True)
+    codigo_area = models.CharField(max_length=10, null=True)
+    descripcion_area = models.TextField(null=True, blank=True)
+    area_proyecto = models.BigIntegerField(null=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_rol = models.BigIntegerField(null=True)
+    tipo_rol = models.CharField(max_length=2, null=True)
+
+    id_especialidad = models.BigIntegerField(null=True)
+    tipo_especialidad = models.CharField(max_length=100, null=True)
+    proyecto_especialidad = models.BigIntegerField(null=True)
+
+    id_usuario = models.BigIntegerField(null=True)
+    codigo_usuario = models.CharField(max_length=20, null=True)
+    nombre_usuario = models.TextField(max_length=150, null=True)
+    apellidos_usuario = models.TextField(max_length=250, null=True)
+    email_usuario = models.EmailField(null=True)
+    password = models.CharField(max_length=8, null=True)
+    usuario_rol = models.BigIntegerField(null=True)
+    usuario_proyecto = models.BigIntegerField(null=True)
+    usuario_area = models.BigIntegerField(null=True)
+    status_entidad = models.BigIntegerField(null=True)
+
+    id_especialista = models.BigIntegerField(null=True)
+    status_entidad = models.BigIntegerField(null=True)
+    especialista_usuario = models.BigIntegerField(null=True)
+
+    id_prioridad = models.BigIntegerField(null=True)
+    tipo_prioridad = models.CharField(max_length=50, null=True)
+
+    id_status_ticket = models.BigIntegerField(null=True)
+    tipo_estatus = models.CharField(max_length=10, null=True)
+
+    id_ticket = models.BigIntegerField(null=True)
+    folio = models.CharField(max_length=20, null=True)
+    titulo = models.CharField(max_length=250, null=True)
+    coordenadas= models.CharField(max_length=30, null=True)
+    status = models.CharField(max_length=10, blank=True, null=True)
+    evidencias= models.FileField(upload_to='evidencias', max_length=250, null=True, blank=True)
+    descripcion = models.TextField(null=True)
+    comentario_t = models.TextField(null=True)
+
+    ticket_superior = models.BigIntegerField(blank=True, null=True)
+
+    ticket_usario = models.BigIntegerField(null=True)
+    ticket_especialista= models.BigIntegerField(null=True)
+    ticket_tipoprioridad= models.BigIntegerField(null=True)
+    ticket_tipostatus= models.BigIntegerField(null=True)
+    ticket_proyecto= models.BigIntegerField(null=True)
+    ticket_areaorigen= models.BigIntegerField(null=True)
+
+    publish = models.DateTimeField(blank=True, null=True)
+    fecha_atendido = models.DateTimeField(blank=True, null=True)
+    fecha_asignado = models.DateTimeField(blank=True, null=True)
+    fecha_proceso = models.DateTimeField(blank=True, null=True)
+    fecha_espera = models.DateTimeField(blank=True, null=True)
+    fecha_resuelto = models.DateTimeField(blank=True, null=True)
+    fecha_validado = models.DateTimeField(blank=True, null=True)
+    fecha_cancelado = models.DateTimeField(blank=True, null=True)
+
+    id_comentario = models.BigIntegerField(null=True)
+    contenido_ticket = models.TextField()
+    status = models.BooleanField(default=True)
+
+    comentario_usuario = models.BigIntegerField(null=True)
+    comentario_ticket = models.BigIntegerField(null=True)
+    fecha_comentario = models.DateTimeField(blank=True, null=True)
 
