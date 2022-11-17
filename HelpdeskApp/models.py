@@ -9,17 +9,6 @@ import pgtrigger
 import pghistory
 
 
-@pghistory.track(
-    pghistory.AfterInsert(label="Inserción"),
-    pghistory.BeforeUpdate(label="Antes de Actualizar"),
-    pghistory.AfterUpdate(label="Actualización"),
-    pghistory.BeforeDelete(label="Antes de Eliminar"),
-)
-class ejemplo(models.Model):
-    nombre = models.CharField(verbose_name="Nombre", max_length=50)
-    edad = models.IntegerField(null=True, verbose_name=("edad"))
-
-
 # Clase estatus de las entidades
 class estatus_e(models.Model):
     tipo_estatus = models.CharField(
@@ -40,7 +29,8 @@ class proyecto(models.Model):
     nombre_proyecto = models.CharField(max_length=150)
     codigo_proyecto = models.CharField(max_length=10)
 
-    fecha_inicial = models.DateTimeField(null=True, verbose_name="Fecha incial")
+    fecha_inicial = models.DateTimeField(
+        null=True, verbose_name="Fecha incial")
     fecha_final = models.DateTimeField(
         null=True, verbose_name="Fecha final del proyecto"
     )
@@ -109,15 +99,19 @@ class especialidad(models.Model):
 class usuario(models.Model):
     codigo_usuario = models.CharField(max_length=20, unique=True)
 
-    nombre_usuario = models.TextField(max_length=150, verbose_name="Nombre usuario")
-    apellidos_usuario = models.TextField(max_length=250, verbose_name="Apellidos")
-    email_usuario = models.EmailField(unique=True, verbose_name="Correo electrónico")
+    nombre_usuario = models.TextField(
+        max_length=150, verbose_name="Nombre usuario")
+    apellidos_usuario = models.TextField(
+        max_length=250, verbose_name="Apellidos")
+    email_usuario = models.EmailField(
+        unique=True, verbose_name="Correo electrónico")
     password = models.CharField(max_length=10, verbose_name="Contraseña")
     usuario_rol = models.ForeignKey(
         rol, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Rol"
     )
 
-    usuario_proyecto = models.ManyToManyField(proyecto, verbose_name="Proyecto")
+    usuario_proyecto = models.ManyToManyField(
+        proyecto, verbose_name="Proyecto")
     usuario_area = models.ManyToManyField(area, verbose_name="Área")
 
     estatus_entidad = models.ForeignKey(
@@ -133,7 +127,8 @@ class usuario(models.Model):
 
     class Meta:
         triggers = [
-            pgtrigger.Protect(name="proteger_proyecto", operation=pgtrigger.Delete)
+            pgtrigger.Protect(name="proteger_proyecto",
+                              operation=pgtrigger.Delete)
         ]
 
 
@@ -207,7 +202,7 @@ class ticket(models.Model):
     # fecha de creacion
     # publish = models.DateTimeField(null=True, verbose_name='Fecha creacion')
     # author
-    usario = models.ForeignKey(
+    usuario = models.ForeignKey(
         usuario, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Usuario"
     )
     especialista = models.ForeignKey(
@@ -253,15 +248,23 @@ class ticket(models.Model):
         area, null=True, blank=True, on_delete=models.CASCADE, verbose_name="Área"
     )
 
-    comentario_t = models.TextField(null=True, blank=True, verbose_name="Comentario")
+    comentario_t = models.TextField(
+        null=True, blank=True, verbose_name="Comentario")
 
-    fecha_creacion = models.DateTimeField(auto_now=True, verbose_name="Fecha creacion")
-    fecha_atendido = models.DateTimeField(null=True, verbose_name="Fecha atendido")
-    fecha_asignado = models.DateTimeField(null=True, verbose_name="Fecha asignado")
-    fecha_proceso = models.DateTimeField(null=True, verbose_name="Fecha proceso")
-    fecha_resuelto = models.DateTimeField(null=True, verbose_name="Fecha resuelto")
-    fecha_validado = models.DateTimeField(null=True, verbose_name="Fecha validado")
-    fecha_cancelado = models.DateTimeField(null=True, verbose_name="Fecha cancelado")
+    fecha_creacion = models.DateTimeField(
+        auto_now=True, verbose_name="Fecha creacion")
+    fecha_atendido = models.DateTimeField(
+        null=True, verbose_name="Fecha atendido")
+    fecha_asignado = models.DateTimeField(
+        null=True, verbose_name="Fecha asignado")
+    fecha_proceso = models.DateTimeField(
+        null=True, verbose_name="Fecha proceso")
+    fecha_resuelto = models.DateTimeField(
+        null=True, verbose_name="Fecha resuelto")
+    fecha_validado = models.DateTimeField(
+        null=True, verbose_name="Fecha validado")
+    fecha_cancelado = models.DateTimeField(
+        null=True, verbose_name="Fecha cancelado")
     ticket_superior = models.BigIntegerField(null=True)
 
     objects = models.Manager()  # default manager

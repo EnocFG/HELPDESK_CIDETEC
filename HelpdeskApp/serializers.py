@@ -68,10 +68,6 @@ class ComentarioSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ejemploSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ejemplo
-        fields = "__all__"
 
 
 class evidenciaSerializer(serializers.ModelSerializer):

@@ -7,12 +7,6 @@ from rest_framework import viewsets
 from django.shortcuts import get_object_or_404
 
 
-# vista ejemplo
-class ejemploview(viewsets.ModelViewSet):
-    queryset = ejemplo.objects.all()
-    serializer_class = ejemploSerializer
-
-
 # Vista para mostrar todos los tickets
 
 
