@@ -324,7 +324,7 @@ class Ticket(models.Model):
                                           verbose_name='Status')
     # status
     status = models.CharField(max_length=10, choices=options, default='draft', verbose_name='Activo/Inactivo')
-    coordenadas = models.CharField(max_length=30)
+    coordenadas = models.PointField()
     evidencias = models.FileField(upload_to='evidencias', max_length=250, blank=True, null=True)
     # content
     descripcion = models.TextField(null=True)
@@ -355,7 +355,6 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.titulo
-
 
 # Clse Evidencias de ticket
 class Evidencia_Ticket(models.Model):

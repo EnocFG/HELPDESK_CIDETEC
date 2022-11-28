@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     'HelpdeskApp',
     'pgtrigger',
     'pghistory',
+    'geoApp' ,
+    'django.contrib.gis',
 ]
-
+# https://docs.djangoproject.com/en/2.2/ref/contrib/gis/install/postgis/
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
