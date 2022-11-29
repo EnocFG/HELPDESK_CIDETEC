@@ -26,7 +26,34 @@
         <div class="col-12"><p>{{ticket.ticket_tipoprioridad}}</p></div>
         <div class="col-12"><p>{{ticket.ticket_tipostatus}}</p></div>
         <div class="col-12"><p>{{ticket.status}}</p></div>
+
         <div class="col-12"><p>{{ticket.coordenadas}}</p></div>
+        <style>
+          @import url("https://unpkg.com/leaflet@1.9.3/dist/leaflet.css");
+          #map { height: 180px; }
+        </style>
+
+        <body>
+
+         <div id="map"></div>
+
+         <!-- Make sure you put this AFTER Leaflet's CSS -->
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+     integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+     crossorigin="">
+        </script>
+
+        <script>
+          var map = L.map('map').setView([19.502745,-99.1468672], 10);
+
+          L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 19,
+	attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+        </script>
+        </body>
+
         <a href="">{{ticket.evidencias}}</a>
         <div class="col-12"><p>{{ticket.descripcion}}</p></div>
         <div class="col-12"><p>{{ticket.ticket_proyecto}}</p></div>
