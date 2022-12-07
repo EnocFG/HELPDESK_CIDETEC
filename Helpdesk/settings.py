@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_gis',
 ]
-
+# https://docs.djangoproject.com/en/2.2/ref/contrib/gis/install/postgis/
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -368,7 +368,6 @@ class Ticket(models.Model):
 #     descripcion = models.TextField()
 #     geom = gis_models.PolygonField(srid=6362)
 
-
 # Clse Evidencias de ticket
 class Evidencia_Ticket(models.Model):
     evidencia = models.BinaryField()
