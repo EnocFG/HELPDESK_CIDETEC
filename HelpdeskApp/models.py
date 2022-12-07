@@ -8,6 +8,8 @@ from django.urls import reverse
 import pghistory
 import pgtrigger
 
+from django.forms import  ModelForm
+from django.contrib.gis.db import models as gis_models
 
 @pghistory.track(
     pghistory.AfterInsert(label="Inserción"),
@@ -293,6 +295,8 @@ class Status_Ticket(models.Model):
     model_name="Auditoria_Ticket"
 )
 
+
+
 # Clase para la tabla del Ticket
 # Post
 class Ticket(models.Model):
@@ -324,7 +328,11 @@ class Ticket(models.Model):
                                           verbose_name='Status')
     # status
     status = models.CharField(max_length=10, choices=options, default='draft', verbose_name='Activo/Inactivo')
-    coordenadas = models.CharField(max_length=30)
+
+
+    coordenadas = gis_models.PointField(srid=6362,null=True)
+    # lugar_e= models.CharField(max_length=100, null=True)
+
     evidencias = models.FileField(upload_to='evidencias', max_length=250, blank=True, null=True)
     # content
     descripcion = models.TextField(null=True)
@@ -355,6 +363,10 @@ class Ticket(models.Model):
 
     def __str__(self):
         return self.titulo
+# class Edificio(models.Model):
+#     nombre = models.ManyToManyField(Ticket)
+#     descripcion = models.TextField()
+#     geom = gis_models.PolygonField(srid=6362)
 
 
 # Clse Evidencias de ticket
